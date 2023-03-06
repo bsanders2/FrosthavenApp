@@ -36,6 +36,11 @@ class Game():
 
         print("{} not in self.monsters, found close match {}".format(name, get_close_matches(name, [x.name for x in self.monsters])))
 			
+    def getMonsterInstance(self, name):
+        for m in self.monsters:
+            if m.name == name:
+                return m
+        print("{} is not in monsters".format(name))
             
     def draw(self):
         if len(self.active_monsters) == 0:
