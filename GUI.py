@@ -35,13 +35,22 @@ def get_img_data(f, maxsize=(150, 150), first=False):
 class MonsterImage():
     def __init__(self, name='Default', monster=None, row=0, col=0):
         self.image_elem = sg.Image(data=get_img_data(os.path.join('MonsterImages',name+'.webp'),first=True),key='Image'+str(row)+str(col))
+        health = 0
         if monster is not None:
-            self.health = monster.health
-            self.spin = sg.Spin([x+1 for x in range(self.health)], self.health, key='spin'+monster.getName())
-
+            health = monster.health
+        self.spin = sg.Spin([x for x in range(health+1)], health, key='Spin'+str(row)+str(col))
+row0, row1 = [], []
+for i in range(n_cols):
+    im = MonsterImage(row=0,col=i)
+    row0.append(im.image_elem)
+    row0.append(im.spin)
+    im = MonsterImage(row=1,col=i)
+    row1.append(im.image_elem)
+    row1.append(im.spin)
+    
 layout = [
-    [MonsterImage(row=0,col=i).image_elem for i in range(n_cols)],
-    [MonsterImage(row=1,col=i).image_elem for i in range(n_cols)],
+    [row0],
+    [row1],
     [sg.Text('Output: '), sg.Text(size=(30,1), key='-OUTPUT-')],
     [sg.Button('AddMonster'), sg.OptionMenu(monsters,key='MonsterToAdd'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
     [sg.Button('RemoveMonster'), sg.OptionMenu(monsters,key='MonsterToRemove'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteRemove')],
@@ -80,6 +89,7 @@ while True:  # Event Loop
             print("type(window_image) ", type(window['Image'+str(curr_row)+str(curr_col)]))
             print("type monster_image.image_elem ", type(monster_image.image_elem))
             window['Image'+str(curr_row)+str(curr_col)].update(monster_image.image_elem.Data, size=(150,150))
+            window['Spin'+str(curr_row)+str(curr_col)].update(monster_image.spin.DefaultValue, monster_image.spin.Values)
             curr_col += 1
             if curr_col >= n_cols:
                 curr_col = 0
