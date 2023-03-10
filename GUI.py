@@ -11,7 +11,9 @@ import traceback
 from Game import Game
 import os
 import io
+from copy import copy
 from PIL import Image, ImageTk
+import numpy as np
 
 
 
@@ -32,38 +34,66 @@ def get_img_data(f, maxsize=(150, 150), first=False):
         return bio.getvalue()
     return ImageTk.PhotoImage(img)
 
-class MonsterImage():
-    def __init__(self, name='Default', monster=None, row=0, col=0):
-        self.image_elem = sg.Image(data=get_img_data(os.path.join('MonsterImages',name+'.webp'),first=True),key='Image'+str(row)+str(col))
+def calc_row_col(i):
+    return i // n_cols, i % n_cols
+
+class MonsterFrame():
+    def __init__(self, name='Default', monster=None, i=0):
+        self.name = name
+        self.image_elem = sg.Image(data=get_img_data(os.path.join('MonsterImages',name+'.webp'),first=True),key='Image'+str(i))
         health = 0
         if monster is not None:
             health = monster.health
-        self.spin = sg.Spin([x for x in range(health+1)], health, key='Spin'+str(row)+str(col))
-row0, row1 = [], []
-for i in range(n_cols):
-    im = MonsterImage(row=0,col=i)
-    row0.append(im.image_elem)
-    row0.append(im.spin)
-    im = MonsterImage(row=1,col=i)
-    row1.append(im.image_elem)
-    row1.append(im.spin)
+            print("monster health: ", health)
+        self.spin = sg.Spin([x for x in range(health+1)], health, key='Spin'+str(i),expand_x=True, expand_y=True)
+        self.remove = sg.Button('Remove',key='Remove'+str(i))
+
+def monsterMoveImages(window, delete_i):
+    default = MonsterFrame()
+
+    print("==default before remove\n",[frames[i].image_elem.Data == default.image_elem.Data for i in range(8)])
+    for i in range(delete_i, n_rows*n_cols):
+        print("i ", i, "  ", frames[i].name)
+        if i == n_rows*n_cols - 1:
+            frame = MonsterFrame(i=i)
+        else:
+            frame = frames[i+1]
+        frames[i].name = frame.name
+        frames[i].image_elem.Data = frame.image_elem.Data
+        window['Image'+str(i)].update(frame.image_elem.Data, size=(150,150))
+        if frame.spin.TKStringVar is not None:
+            val = frame.spin.get()
+            print("entered get")
+        else:
+            val = frame.spin.DefaultValue
+            print("entered default")
+        frames[i].spin.value = val
+        frames[i].spin.values = frame.spin.Values
+        window['Spin'+str(i)].update(val, frame.spin.Values)
+            
+    
+frames = [MonsterFrame(i=i) for i in range(n_cols*n_rows)]
+def monsterUI(frame):
+    return frame.image_elem, sg.Pane([sg.Col([[frame.spin]]), sg.Col([[frame.remove]])])
     
 layout = [
-    [row0],
-    [row1],
+    np.concatenate([monsterUI(x) for x in frames[:n_cols]]),
+    np.concatenate([monsterUI(x) for x in frames[n_cols:]]),
     [sg.Text('Output: '), sg.Text(size=(30,1), key='-OUTPUT-')],
     [sg.Button('AddMonster'), sg.OptionMenu(monsters,key='MonsterToAdd'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
     [sg.Button('RemoveMonster'), sg.OptionMenu(monsters,key='MonsterToRemove'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteRemove')],
     [sg.Button("StartGame"), sg.Combo([x for x in range(9)],key='level'), sg.Button('Exit')]
     ]
 
-window = sg.Window('Window Title', layout)
+window = sg.Window('Window Title', layout,)
+window.finalize()
 game = None
-curr_row, curr_col = 0, 0
+curr_i = 0
  
 while True:  # Event Loop
     try:
         event, values = window.read()
+        curr_row, curr_col = calc_row_col(curr_i)
         print(event, values)
         if (event == sg.WINDOW_CLOSE_ATTEMPTED_EVENT or event == 'Exit'):# and sg.popup_yes_no('Do you really want to exit?') == 'Yes':
             break
@@ -85,24 +115,39 @@ while True:  # Event Loop
             if values['EliteAdd'] == 'Elite':
                 elite = 1
             game.addMonster(values['MonsterToAdd'], elite)
-            monster_image = MonsterImage(values['MonsterToAdd'], game.getMonsterInstance(values['MonsterToAdd']), curr_row, curr_col)
-            print("type(window_image) ", type(window['Image'+str(curr_row)+str(curr_col)]))
-            print("type monster_image.image_elem ", type(monster_image.image_elem))
-            window['Image'+str(curr_row)+str(curr_col)].update(monster_image.image_elem.Data, size=(150,150))
-            window['Spin'+str(curr_row)+str(curr_col)].update(monster_image.spin.DefaultValue, monster_image.spin.Values)
-            curr_col += 1
-            if curr_col >= n_cols:
-                curr_col = 0
-                curr_row += 1
+            frame = MonsterFrame(values['MonsterToAdd'], game.getMonsterInstance(values['MonsterToAdd']), curr_i)
+            frames[curr_i] = frame
+            window['Image'+str(curr_i)].update(frame.image_elem.Data, size=(150,150))
             
-        if event =='RemoveMonster':
-            if values['MonsterToRemove'] =="" or values['EliteRemove'] == "":
-                window['-OUTPUT-'].update("Monster information not set")
+            default = MonsterFrame()
+            print("==default after add\n",[window['Image'+str(i)].Data == default.image_elem.Data for i in range(8)])
+            
+            window['Spin'+str(curr_i)].update(frame.spin.DefaultValue, frame.spin.Values)
+            curr_i += 1
+            
+        # if event =='RemoveMonster':
+        #     if values['MonsterToRemove'] =="" or values['EliteRemove'] == "":
+        #         window['-OUTPUT-'].update("Monster information not set")
+        #         continue
+        #     elite = 0
+        #     if values['EliteRemove'] == 'Elite':
+        #         elite = 1
+
+        if 'Remove' in event:
+            # need a list of the current monsters in each slot so we know if
+            # we need to call game.removeMonster
+            delete_i = int(event[-1])
+            default = MonsterFrame()
+            if delete_i > curr_i or curr_i == 0:
+                window['-OUTPUT-'].update("Cannot remove monster that's not there")
                 continue
-            elite = 0
-            if values['EliteRemove'] == 'Elite':
-                elite = 1
+            monsterMoveImages(window, delete_i)
             game.removeMonster(values['MonsterToRemove'], elite)
+            curr_i -= 1
+            window['-OUTPUT-'].update("Removed monster {}".format(delete_i))
+            window.refresh()
+            
+            
     except:
         print('\n\n')
         traceback.print_exc()
