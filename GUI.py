@@ -59,18 +59,19 @@ while True:  # Event Loop
             elite = 0
             if values['EliteAdd'] == 'Elite':
                 elite = 1
-            game.addMonster(values['MonsterToAdd'], elite)
-            frame = MonsterFrame(values['MonsterToAdd'], game.getMonsterInstance(values['MonsterToAdd']), curr_i)
-            window['-OUTPUT-'].update("Added {} at frame {}".format(values['MonsterToAdd']+' '+['Normal','Elite'][elite], curr_i))
+            monster = game.addMonster(values['MonsterToAdd'], elite)
+            frame = MonsterFrame(values['MonsterToAdd'], monster, curr_i)
+            window['-OUTPUT-'].update("Added {} : {} at frame {}".format(values['MonsterToAdd']+' '+['Normal','Elite'][elite], frame.monster.standee, curr_i))
             frames[curr_i] = frame
             window['Image'+str(curr_i)].update(frame.image_elem.Data, size=(150,150))
             window['Spin'+str(curr_i)].update(frame.spin.DefaultValue, frame.spin.Values, size=(8,8))
+            window['Standee'+str(curr_i)].update(monster.standee)
             curr_i += 1
 
         if 'Remove' in event:
             delete_i = int(event[-1])
             default = MonsterFrame()
-            if delete_i > curr_i:
+            if delete_i > curr_i or delete_i == curr_i == 0:
                 window['-OUTPUT-'].update("Cannot remove monster that's not there")
                 continue
             if checkRemove(frames, frames[delete_i].monster):

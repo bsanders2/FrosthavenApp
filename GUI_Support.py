@@ -31,17 +31,17 @@ def calc_row_col(i):
     return i // n_cols, i % n_cols
 
 def monsterUI(frame):
-    return frame.image_elem, sg.Col([[frame.spin], [frame.remove]])
+    return sg.Col([[frame.standee_num],[frame.image_elem]]), sg.Col([[frame.spin], [frame.remove]])
 
 class MonsterFrame():
     def __init__(self, name='Default', monster=None, i=0):
         self.name = name
         self.monster = monster
+        self.standee_num = sg.Text(key='Standee'+str(i))
         self.image_elem = sg.Image(data=get_img_data(os.path.join('MonsterImages',name+'.webp'),first=True),key='Image'+str(i))
         health = 0
         if monster is not None:
             health = monster.health
-            print("monster health: ", health)
         self.spin = sg.OptionMenu([x for x in range(health+1)], health, key='Spin'+str(i), size=(8,8),auto_size_text=True)
         self.remove = sg.Button('Remove',key='Remove'+str(i))
         
@@ -54,6 +54,7 @@ def monsterMoveImages(window, values, frames, delete_i):
             val = values['Spin'+str(i+1)]
             frame = frames[i+1]
         frames[i].name = frame.name
+        frames[i].standee_num = frame.standee_num
         frames[i].image_elem.Data = frame.image_elem.Data
         window['Image'+str(i)].update(frame.image_elem.Data, size=(150,150))
     

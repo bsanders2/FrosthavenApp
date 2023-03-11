@@ -12,6 +12,7 @@ class Monster:
     def __init__(self, level, name, elite):
         self.level = level
         self.name = name
+        self.standee = None
         self.elite = elite
         self.health = 0
         self.move = 0
@@ -43,6 +44,7 @@ class Monster:
 class AlgoxArcher(Monster):
     properties = {0:[[4,1,3],[6,2,4]], 1:[[5,2,3],[8,2,4]]}
     name = "AlgoxArcher"
+    num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite)
         self.updateProperties(self.properties[level][elite])
@@ -63,6 +65,7 @@ class AlgoxArcher(Monster):
 class AlgoxGuard(Monster):
     properties = {0:[[6,2,3],[10,2,4]], 1:[[7,3,3],[12,3,4]]}
     name = "AlgoxGuard"
+    num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite)
         self.updateProperties(self.properties[level][elite])
@@ -83,6 +86,7 @@ class AlgoxGuard(Monster):
 class AlgoxScout(Monster):
     properties = {0:[[7,3,2],[10,4,3]], 1:[[8,4,2],[12,4,3]]}  
     name = "AlgoxScout"
+    num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite)
         innate = ""

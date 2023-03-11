@@ -7,6 +7,8 @@ Created on Sat Mar  4 15:31:42 2023
 
 from Monsters import *
 from difflib import get_close_matches
+import numpy as np
+from numpy.random import randint
 
 class Game():
     def __init__(self, level):
@@ -19,9 +21,18 @@ class Game():
         if name in globals():
             obj = globals()[name]
             monster = obj(self.level, elite)
+            standee_choices = set(np.arange(1,monster.num_standees+1))
+            active_standees = set([m.standee for m in self.monsters if m.name==monster.name])
+            print("active_standees ", active_standees)
+            standee_choices = standee_choices - active_standees
+            standee = list(standee_choices)[np.random.randint(0, len(standee_choices))]
+            monster.standee = standee
+            #start here, standees need to be tracked
             self.monsters.add(monster)
-            self.decks[monster.name] = monster.buildDeck()
+            if monster.name not in self.decks.keys():
+                self.decks[monster.name] = monster.buildDeck()
             self.active_monsters.add(monster.name)
+            return monster
         else:
             print("{} not in Monsters.py, found close match {}".format(name, get_close_matches(name, globals())))
 			
