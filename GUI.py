@@ -64,7 +64,7 @@ while True:  # Event Loop
             window['-OUTPUT-'].update("Added {} at frame {}".format(values['MonsterToAdd']+' '+['Normal','Elite'][elite], curr_i))
             frames[curr_i] = frame
             window['Image'+str(curr_i)].update(frame.image_elem.Data, size=(150,150))
-            window['Spin'+str(curr_i)].update(frame.spin.DefaultValue, frame.spin.Values)
+            window['Spin'+str(curr_i)].update(frame.spin.DefaultValue, frame.spin.Values, size=(8,8))
             curr_i += 1
 
         if 'Remove' in event:
