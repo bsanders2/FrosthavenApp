@@ -6,21 +6,24 @@ Created on Fri Mar 10 16:55:20 2023
 """
 
 import PySimpleGUI as sg
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageOps
 import os
 import io
 import numpy as np
 
+from Monsters import Monster
 from GUI_config import n_rows, n_cols
 
-def loadImage(name, standee_num, maxsize=(150, 150)):
+def loadImage(monster, maxsize=(150, 150)):
     """Generate image data using PIL
     """
-    img = Image.open(os.path.join('MonsterImages',name+'.webp'))
-    if 'Default' in name:
+    img = Image.open(os.path.join('MonsterImages',monster.name+'.webp'))
+    if 'Default' in monster.name:
         img = ImageEnhance.Color(img).enhance(1.5)
     else:
-        num = Image.open(os.path.join('MonsterImages',str(standee_num)+'.jpg'))
+        if monster.elite:
+            img = ImageOps.expand(img, border=5,fill=('yellow'))
+        num = Image.open(os.path.join('MonsterImages',str(monster.standee)+'.jpg'))
         num.thumbnail((25,25))
         num = num.convert('RGBA')
         # img = img.convert('RGBA')
@@ -40,11 +43,11 @@ def monsterUI(frame):
     return frame.image_elem, sg.Col([[frame.spin], [frame.remove]])
 
 class MonsterFrame():
-    def __init__(self, name='Default', standee=None, monster=None, i=0):
+    def __init__(self, name='Default', standee=None, monster=Monster(), i=0):
         self.name = name
         self.monster = monster
         self.standee = standee
-        self.image_elem = sg.Image(data=loadImage(name,standee),key='Image'+str(i))
+        self.image_elem = sg.Image(data=loadImage(monster),key='Image'+str(i))
         health = 0
         if monster is not None:
             health = monster.health

@@ -9,10 +9,10 @@ from ModifierCards import ModifierCard, Deck
 from copy import copy
 
 class Monster:
-    def __init__(self, level, name, elite):
+    def __init__(self, level=0, name='Default', elite=0):
         self.level = level
         self.name = name
-        self.standee = None
+        self.standee = 0
         self.elite = elite
         self.health = 0
         self.move = 0

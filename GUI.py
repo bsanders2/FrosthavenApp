@@ -27,7 +27,6 @@ layout = [
     np.concatenate([monsterUI(x) for x in frames[n_cols:]]),
     [sg.Text('Output: '), sg.Text(size=(30,1), key='-OUTPUT-')],
     [sg.Button('AddMonster'), sg.OptionMenu(monsters,key='MonsterToAdd'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
-    [sg.Button('RemoveMonster'), sg.OptionMenu(monsters,key='MonsterToRemove'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteRemove')],
     [sg.Button("StartGame"), sg.Combo([x for x in range(9)],key='level'), sg.Button('Exit')]
     ]
 
