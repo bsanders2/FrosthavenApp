@@ -8,7 +8,6 @@ Created on Sat Mar  4 15:31:42 2023
 from Monsters import *
 from difflib import get_close_matches
 import numpy as np
-from numpy.random import randint
 
 class Game():
     def __init__(self, level):
@@ -25,6 +24,8 @@ class Game():
             active_standees = set([m.standee for m in self.monsters if m.name==monster.name])
             print("active_standees ", active_standees)
             standee_choices = standee_choices - active_standees
+            if len(standee_choices) == 0:
+                return None
             standee = list(standee_choices)[np.random.randint(0, len(standee_choices))]
             monster.standee = standee
             #start here, standees need to be tracked
@@ -36,16 +37,16 @@ class Game():
         else:
             print("{} not in Monsters.py, found close match {}".format(name, get_close_matches(name, globals())))
 			
-    def removeMonster(self, name, elite=0):
+    def removeMonster(self, monster):
         for m in self.monsters:
-            if m.name==name and m.elite==elite:
-                if len([m.name for m in self.monsters if m.name==name]) == 1:
+            if m.name==monster.name and m.standee==monster.standee:
+                if len([m.name for m in self.monsters if m.name==monster.name]) == 1:
                     # Last monster of that type, stop drawing for it
                     self.active_monsters.remove(m.name)
                 self.monsters.remove(m)
                 return
 
-        print("{} not in self.monsters, found close match {}".format(name, get_close_matches(name, [x.name for x in self.monsters])))
+        print("{} not in self.monsters, found close match {}".format(monster.name, get_close_matches(monster.name, [x.name for x in self.monsters])))
 			
     def getMonsterInstance(self, name):
         for m in self.monsters:

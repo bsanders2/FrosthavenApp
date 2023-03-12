@@ -60,12 +60,14 @@ while True:  # Event Loop
             if values['EliteAdd'] == 'Elite':
                 elite = 1
             monster = game.addMonster(values['MonsterToAdd'], elite)
-            frame = MonsterFrame(values['MonsterToAdd'], monster, curr_i)
+            if monster is None: # out of standees for this monster
+                window['-OUTPUT-'].update("Out of standees for {}".format(values['MonsterToAdd']))
+                continue
+            frame = MonsterFrame(values['MonsterToAdd'], monster.standee, monster, curr_i)
             window['-OUTPUT-'].update("Added {} : {} at frame {}".format(values['MonsterToAdd']+' '+['Normal','Elite'][elite], frame.monster.standee, curr_i))
             frames[curr_i] = frame
             window['Image'+str(curr_i)].update(frame.image_elem.Data, size=(150,150))
             window['Spin'+str(curr_i)].update(frame.spin.DefaultValue, frame.spin.Values, size=(8,8))
-            window['Standee'+str(curr_i)].update(monster.standee)
             curr_i += 1
 
         if 'Remove' in event:
@@ -74,8 +76,7 @@ while True:  # Event Loop
             if delete_i > curr_i or delete_i == curr_i == 0:
                 window['-OUTPUT-'].update("Cannot remove monster that's not there")
                 continue
-            if checkRemove(frames, frames[delete_i].monster):
-                game.removeMonster(values['MonsterToRemove'], elite)    
+            game.removeMonster(frames[delete_i].monster)    
             monsterMoveImages(window, values, frames, delete_i)
             curr_i -= 1
             window['-OUTPUT-'].update("Removed monster {}".format(delete_i))
