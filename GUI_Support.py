@@ -20,7 +20,9 @@ def loadImage(monster, maxsize=(150, 150)):
     img = Image.open(os.path.join('MonsterImages',monster.name+'.webp'))
     if 'Default' in monster.name:
         img = ImageEnhance.Color(img).enhance(1.5)
+        img.thumbnail(maxsize)
     else:
+        img.thumbnail(maxsize)
         if monster.elite:
             img = ImageOps.expand(img, border=5,fill=('yellow'))
         num = Image.open(os.path.join('MonsterImages',str(monster.standee)+'.jpg'))
@@ -29,7 +31,7 @@ def loadImage(monster, maxsize=(150, 150)):
         # img = img.convert('RGBA')
         s = img.size
         img.paste(num, (s[0]-25, 0), num)
-    img.thumbnail(maxsize)
+    
     bio = io.BytesIO()
     img.save(bio, format="PNG")
     del img
@@ -51,7 +53,7 @@ class MonsterFrame():
         health = 0
         if monster is not None:
             health = monster.health
-        self.spin = sg.OptionMenu([x for x in range(health+1)], health, key='Spin'+str(i), size=(8,8),auto_size_text=True)
+        self.spin = sg.OptionMenu([x for x in range(health+1)], health, key='Spin'+str(i), size=(8,8))
         self.remove = sg.Button('Remove',key='Remove'+str(i))
         
 def monsterMoveImages(window, values, frames, delete_i):

@@ -57,13 +57,20 @@ class Game():
     def draw(self):
         if len(self.active_monsters) == 0:
             return
-        print("-"*50)
+        ret = "-"*50+'\n'
         cards = {name : self.decks[name].draw() for name in self.active_monsters}
-        cards, monsters = zip(*sorted(zip([cards[m.name] for m in self.monsters],self.monsters), key = lambda x: [x[0].initiative,x[1].getName()]))
+        monsters = {m.getName() : m for m in self.monsters}
+        print("active monsters ", self.active_monsters)
+        
+        cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], monsters.values()), key = lambda x: [x[0].initiative,x[1].getName()]))
+        print("cards ", cards)
+        print("monsters ", monsters)
         for card, monster in zip(cards, monsters):
-            print(monster.getName() + ': ' + card.name + ' : ' + str(card.initiative))
-            print(monster.calcAction(card))
-        print("-"*50)
+            print("card ", card, " monster ", monster)
+            ret += monster.getName() + ': ' + card.name + ' : ' + str(card.initiative)+'\n'
+            ret += str(monster.calcAction(card)) +'\n'
+        ret += "-"*50+'\n'
+        return ret
             
 if __name__ == '__main__':
     game = Game(1)

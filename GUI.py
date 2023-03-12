@@ -23,11 +23,15 @@ monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxScout"]
 frames = [MonsterFrame(i=i) for i in range(n_cols*n_rows)]
 
 layout = [
-    np.concatenate([monsterUI(x) for x in frames[:n_cols]]),
-    np.concatenate([monsterUI(x) for x in frames[n_cols:]]),
-    [sg.Text('Output: '), sg.Text(size=(30,1), key='-OUTPUT-')],
-    [sg.Button('AddMonster'), sg.OptionMenu(monsters,key='MonsterToAdd'), sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
+    [sg.Col([[sg.Multiline(size=(30,40), border_width=2, key='-OUTPUT-')]]),
+    sg.Col([
+    [x for x in np.concatenate([monsterUI(x) for x in frames[:n_cols]])],
+    [x for x in np.concatenate([monsterUI(x) for x in frames[n_cols:]])],
+    [sg.Button("PlayMove")],
+    [sg.Button('AddMonster'), sg.OptionMenu(monsters,key='MonsterToAdd'), 
+              sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
     [sg.Button("StartGame"), sg.Combo([x for x in range(9)],key='level'), sg.Button('Exit')]
+    ])]
     ]
 
 window = sg.Window('Window Title', layout, finalize=True)
@@ -79,6 +83,9 @@ while True:  # Event Loop
             monsterMoveImages(window, values, frames, delete_i)
             curr_i -= 1
             window['-OUTPUT-'].update("Removed monster {}".format(delete_i))
+            
+        if event == 'PlayMove':
+            window['-OUTPUT-'].update(game.draw())
             
             
     except:

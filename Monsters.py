@@ -19,6 +19,9 @@ class Monster:
         self.attack = 0
         self.innate = ""
         
+    def __repr__(self):
+        return "{}:{}".format(self.getName(), self.standee)
+        
     def updateProperties(self, level_props, innate=""):
         self.health = level_props[0]
         self.move = level_props[1]
