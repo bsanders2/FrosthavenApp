@@ -26,7 +26,8 @@ layout = [
     [sg.Col([[sg.Multiline(size=(30,40), border_width=2, key='-OUTPUT-')]]),
     sg.Col([
     [x for x in np.concatenate([monsterUI(x) for x in frames[:n_cols]])],
-    [x for x in np.concatenate([monsterUI(x) for x in frames[n_cols:]])],
+    [x for x in np.concatenate([monsterUI(x) for x in frames[n_cols:n_cols*2]])],
+    [x for x in np.concatenate([monsterUI(x) for x in frames[n_cols*2:]])],
     [sg.Button("PlayMove")],
     [sg.Button('AddMonster'), sg.OptionMenu(monsters,key='MonsterToAdd'), 
               sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
@@ -74,7 +75,7 @@ while True:  # Event Loop
             curr_i += 1
 
         if 'Remove' in event:
-            delete_i = int(event[-1])
+            delete_i = int(event.lstrip('Remove'))
             default = MonsterFrame()
             if delete_i > curr_i or delete_i == curr_i == 0:
                 window['-OUTPUT-'].update("Cannot remove monster that's not there")
@@ -86,6 +87,11 @@ while True:  # Event Loop
             
         if event == 'PlayMove':
             window['-OUTPUT-'].update(game.draw())
+            
+        if 'Condition' in event:
+            button_i = int(event[event.rfind('_')+1:])
+            condition_type = event[event.find('_')+1:event.rfind('_')]
+            window[event].update(image_filename=frames[button_i].buttons[condition_type].flip())
             
             
     except:

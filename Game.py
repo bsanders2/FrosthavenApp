@@ -38,6 +38,7 @@ class Game():
             print("{} not in Monsters.py, found close match {}".format(name, get_close_matches(name, globals())))
 			
     def removeMonster(self, monster):
+        # TODO not removing monster or active monster
         for m in self.monsters:
             if m.name==monster.name and m.standee==monster.standee:
                 if len([m.name for m in self.monsters if m.name==monster.name]) == 1:

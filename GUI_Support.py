@@ -14,6 +14,9 @@ import numpy as np
 from Monsters import Monster
 from GUI_config import n_rows, n_cols
 
+Wound_f0 = './ConditionImages/Wound0.png'
+Wound_f1 = './ConditionImages/Wound1.png'
+
 def loadImage(monster, maxsize=(150, 150)):
     """Generate image data using PIL
     """
@@ -42,7 +45,20 @@ def calc_row_col(i):
     return i // n_cols, i % n_cols
 
 def monsterUI(frame):
-    return frame.image_elem, sg.Col([[frame.spin], [frame.remove]])
+    return frame.image_elem, sg.Col([[frame.spin], [frame.remove], [x.button for x in frame.buttons.values()]])
+
+class condition():
+    def __init__(self, name, button, active):
+        self.name = name
+        self.button = button
+        self.active = active
+    def flip(self):
+        if self.active:
+            self.active = False
+            return globals()[self.name+'_f0']
+        else:
+            self.active = True
+            return globals()[self.name+'_f1']
 
 class MonsterFrame():
     def __init__(self, name='Default', standee=None, monster=Monster(), i=0):
@@ -55,6 +71,7 @@ class MonsterFrame():
             health = monster.health
         self.spin = sg.OptionMenu([x for x in range(health+1)], health, key='Spin'+str(i), size=(8,8))
         self.remove = sg.Button('Remove',key='Remove'+str(i))
+        self.buttons = {'Wound':condition('Wound', sg.Button(image_filename=Wound_f0, key='Condition_Wound_'+str(i)), False)}
         
 def monsterMoveImages(window, values, frames, delete_i):
     for i in range(delete_i, n_rows*n_cols):
