@@ -12,7 +12,7 @@ import numpy as np
 class Game():
     def __init__(self, level):
         self.level = level
-        self.monsters = set()
+        self.monsters = list()
         self.active_monsters = set()
         self.decks = dict()
     
@@ -29,7 +29,7 @@ class Game():
             standee = list(standee_choices)[np.random.randint(0, len(standee_choices))]
             monster.standee = standee
             #start here, standees need to be tracked
-            self.monsters.add(monster)
+            self.monsters.append(monster)
             if monster.name not in self.decks.keys():
                 self.decks[monster.name] = monster.buildDeck()
             self.active_monsters.add(monster.name)
@@ -38,13 +38,16 @@ class Game():
             print("{} not in Monsters.py, found close match {}".format(name, get_close_matches(name, globals())))
 			
     def removeMonster(self, monster):
-        # TODO not removing monster or active monster
         for m in self.monsters:
+            print(m.name, m.standee, " =? ", (monster.name, monster.standee), (m.name==monster.name, m.standee==monster.standee))
             if m.name==monster.name and m.standee==monster.standee:
                 if len([m.name for m in self.monsters if m.name==monster.name]) == 1:
+                    print("Setting inactive: ", m.name)
                     # Last monster of that type, stop drawing for it
                     self.active_monsters.remove(m.name)
                 self.monsters.remove(m)
+                print("removed ", m.name, ': ', m.standee)
+                print([(x.name, x.standee) for x in self.monsters])
                 return
 
         print("{} not in self.monsters, found close match {}".format(monster.name, get_close_matches(monster.name, [x.name for x in self.monsters])))

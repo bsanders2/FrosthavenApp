@@ -75,8 +75,8 @@ while True:  # Event Loop
             curr_i += 1
 
         if 'Remove' in event:
+            print("\n\n Remove Event")
             delete_i = int(event.lstrip('Remove'))
-            default = MonsterFrame()
             if delete_i > curr_i or delete_i == curr_i == 0:
                 window['-OUTPUT-'].update("Cannot remove monster that's not there")
                 continue
