@@ -14,8 +14,24 @@ import numpy as np
 from Monsters import Monster
 from GUI_config import n_rows, n_cols
 
+Strengthen_f0 = './ConditionImages/Strengthen0.png'
+Strengthen_f1 = './ConditionImages/Strengthen1.png'
+Stun_f0 = './ConditionImages/Stun0.png'
+Stun_f1 = './ConditionImages/Stun1.png'
+Poison_f0 = './ConditionImages/Poison0.png'
+Poison_f1 = './ConditionImages/Poison1.png'
+Muddle_f0 = './ConditionImages/Muddle0.png'
+Muddle_f1 = './ConditionImages/Muddle1.png'
+Invisible_f0 = './ConditionImages/Invisible0.png'
+Invisible_f1 = './ConditionImages/Invisible1.png'
+Disarm_f0 = './ConditionImages/Disarm0.png'
+Disarm_f1 = './ConditionImages/Disarm1.png'
+Brittle_f0 = './ConditionImages/Brittle0.png'
+Brittle_f1 = './ConditionImages/Brittle1.png'
 Wound_f0 = './ConditionImages/Wound0.png'
 Wound_f1 = './ConditionImages/Wound1.png'
+CONDITION_NAMES = ['Strengthen', 'Stun', 'Poison', 'Muddle', 'Invisible', 'Disarm', 'Brittle', 'Wound']
+CONDITION_IMG_SIZE = (22,22)
 
 def loadImage(monster, maxsize=(150, 150)):
     """Generate image data using PIL
@@ -45,20 +61,31 @@ def calc_row_col(i):
     return i // n_cols, i % n_cols
 
 def monsterUI(frame):
-    return frame.image_elem, sg.Col([[frame.spin], [frame.remove], [x.button for x in frame.buttons.values()]])
+    cond_buttons = np.array([x.button for x in frame.conditions.values()])
+    cond_buttons = np.reshape(cond_buttons, (2, len(cond_buttons)//2))
+    return frame.image_elem, sg.Col([[frame.spin], [frame.remove], [sg.Col(cond_buttons)]])
 
 class condition():
     def __init__(self, name, button, active):
         self.name = name
         self.button = button
         self.active = active
+        self.fname = globals()[self.name+'_f0']
+        
     def flip(self):
         if self.active:
             self.active = False
-            return globals()[self.name+'_f0']
+            self.fname = globals()[self.name+'_f0']
         else:
             self.active = True
-            return globals()[self.name+'_f1']
+            self.fname = globals()[self.name+'_f1']
+        return self.fname
+    
+    def copy_from(self, other):
+        self.fname = other.fname
+        self.button.ImageData = other.button.ImageData
+        self.button.image_size = CONDITION_IMG_SIZE
+        self.active = other.active
 
 class MonsterFrame():
     def __init__(self, name='Default', standee=None, monster=Monster(), i=0):
@@ -71,7 +98,10 @@ class MonsterFrame():
             health = monster.health
         self.spin = sg.OptionMenu([x for x in range(health+1)], health, key='Spin'+str(i), size=(8,8))
         self.remove = sg.Button('Remove',key='Remove'+str(i))
-        self.buttons = {'Wound':condition('Wound', sg.Button(image_filename=Wound_f0, key='Condition_Wound_'+str(i)), False)}
+        self.conditions = {name : condition(name, 
+                                            sg.Button(image_filename=globals()[name+'_f0'],
+                                                      key=f'Condition_{name}_{str(i)}',
+                                                      image_size=CONDITION_IMG_SIZE), False) for name in CONDITION_NAMES}
         
 def monsterMoveImages(window, values, frames, delete_i):
     for i in range(delete_i, n_rows*n_cols):
@@ -87,6 +117,10 @@ def monsterMoveImages(window, values, frames, delete_i):
         window['Image'+str(i)].update(frame.image_elem.Data, size=(150,150))
     
         frames[i].spin = sg.OptionMenu(frame.spin.Values, val, key='Spin'+str(i),size=(8,8),auto_size_text=True)
+        for name, cond in frame.conditions.items():
+            window[f'Condition_{name}_{i}'].update(image_filename=cond.fname, image_size=CONDITION_IMG_SIZE)
+            frames[i].conditions[name].button.image_filename=cond.fname
+            frames[i].conditions[name].copy_from(cond)
         window['Spin'+str(i)].update(val, frame.spin.Values)
     window.refresh()
         

@@ -15,7 +15,7 @@ import numpy as np
 
 # repo packages
 from Game import Game
-from GUI_Support import MonsterFrame, checkRemove, monsterMoveImages, monsterUI
+from GUI_Support import MonsterFrame, checkRemove, monsterMoveImages, monsterUI, CONDITION_IMG_SIZE
 from GUI_config import n_rows, n_cols
 
 monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxScout"]
@@ -90,8 +90,10 @@ while True:  # Event Loop
             
         if 'Condition' in event:
             button_i = int(event[event.rfind('_')+1:])
+            if button_i >= curr_i:
+                continue
             condition_type = event[event.find('_')+1:event.rfind('_')]
-            window[event].update(image_filename=frames[button_i].buttons[condition_type].flip())
+            window[event].update(image_filename=frames[button_i].conditions[condition_type].flip(), image_size=CONDITION_IMG_SIZE)
             
             
     except:
