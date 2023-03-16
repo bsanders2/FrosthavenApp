@@ -18,12 +18,12 @@ from Game import Game
 from GUI_Support import MonsterFrame, checkRemove, monsterMoveImages, monsterUI, CONDITION_IMG_SIZE
 from GUI_config import n_rows, n_cols
 
-monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxScout"]
+monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxScout", "FrozenCorpse", "LurkerClawcrusher", "LurkerMindsnipper", "LurkerSoldier"]
 
 frames = [MonsterFrame(i=i) for i in range(n_cols*n_rows)]
 
 layout = [
-    [sg.Col([[sg.Multiline(size=(30,40), border_width=2, key='-OUTPUT-')]]),
+    [sg.Col([[sg.Multiline(size=(40,40), border_width=2, key='-OUTPUT-')]]),
     sg.Col([
     [x for x in np.concatenate([monsterUI(x) for x in frames[:n_cols]])],
     [x for x in np.concatenate([monsterUI(x) for x in frames[n_cols:n_cols*2]])],

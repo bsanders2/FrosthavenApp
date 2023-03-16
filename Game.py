@@ -6,6 +6,7 @@ Created on Sat Mar  4 15:31:42 2023
 """
 
 from Monsters import *
+from ModifierCards import DeckFactory
 from difflib import get_close_matches
 import numpy as np
 
@@ -31,7 +32,7 @@ class Game():
             #start here, standees need to be tracked
             self.monsters.append(monster)
             if monster.name not in self.decks.keys():
-                self.decks[monster.name] = monster.buildDeck()
+                self.decks[monster.name] = DeckFactory.buildDeck(monster.deck_name)
             self.active_monsters.add(monster.name)
             return monster
         else:
