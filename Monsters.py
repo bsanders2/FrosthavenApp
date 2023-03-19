@@ -63,8 +63,18 @@ class AlgoxGuard(Monster):
         super().__init__(level, self.name, elite, self.deck_name)
         self.updateProperties(self.properties[level][elite])
         
+class AlgoxPriest(Monster):
+    properties = {0:[[5,2,2],[7,3,3]], 1:[[6,2,2],[7,3,3]], 2:[[7,2,3],[9,3,3]]}
+    name = "AlgoxPriest"
+    deck_name = "Priest"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = ""
+        self.updateProperties(self.properties[level][elite], innate)
+        
 class AlgoxScout(Monster):
-    properties = {0:[[7,3,2],[10,4,3]], 1:[[8,4,2],[12,4,3]]}  
+    properties = {0:[[7,3,2],[10,4,3]], 1:[[8,4,2],[12,4,3]], 2:[[11,4,2],[13,5,4]]}  
     name = "AlgoxScout"
     deck_name = "Scout"
     num_standees = 6
@@ -73,6 +83,34 @@ class AlgoxScout(Monster):
         innate = ""
         if level > 0 and elite:
             innate = "Impair"
+        self.updateProperties(self.properties[level][elite], innate)
+        
+class DeepTerror(Monster):
+    properties = {0:[[3,None,2],[5,None,3]], 1:[[4,None,2],[6,None,3]], 2:[[4,None,3],[7,None,4]]}  
+    name = "DeepTerror"
+    deck_name = "DeepTerror"
+    num_standees = 10
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = ""
+        # if level > 0 and elite:
+        #     innate = "Impair"
+        self.updateProperties(self.properties[level][elite], innate)
+        
+class ForestImp(Monster):
+    properties = {0:[[1,3,1],[4,3,1]], 1:[[2,3,1],[5,3,2]], 2:[[2,3,2],[6,3,2]]}
+    name = "ForestImp"
+    deck_name = "Imp"
+    num_standees = 10
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = ""
+        if level < 4:
+            innate = "Shield 1"
+        else:
+            innate = "Shield 2"
+        if level > 1 and elite:
+            innate += ", Curse"
         self.updateProperties(self.properties[level][elite], innate)
         
 class FrozenCorpse(Monster):
@@ -89,8 +127,22 @@ class FrozenCorpse(Monster):
             innate += ", Retaliate 1"
         self.updateProperties(self.properties[level][elite], innate)
         
+class HarrowerInfester(Monster):
+    properties = {0:[[6,2,2],[12,2,2]], 1:[[7,2,2],[12,3,2]], 2:[[8,2,2],[14,3,3]]}
+    name = "HarrowerInfester"
+    deck_name = "HarrowerInfester"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = ""
+        # if level > 1:
+        #     innate += "Shield 1"
+        # if level > 0 and elite:
+        #     innate += ", Retaliate 1"
+        self.updateProperties(self.properties[level][elite], innate)
+        
 class IceWraith(Monster):
-    properties = {0 : [[7,2,2],[7,4,3]], 1 : [[8,2,2],[8,4,3]]}
+    properties = {0: [[7,2,2],[7,4,3]], 1: [[8,2,2],[8,4,3]], 2:[[10,3,2],[10,5,3]]}
     name = "IceWraith"
     deck_name = "IceWraith"
     num_standees = 6
@@ -148,6 +200,31 @@ class LurkerSoldier(Monster):
             innate += ", Shield 1"
         if level > 0:
            innate += ", Pierce 1"
+        self.updateProperties(self.properties[level][elite], innate)
+        
+class NightDemon(Monster):
+    properties = {0:[[3,3,3],[5,4,4]], 1:[[5,3,3],[8,4,4]], 2:[[6,3,4],[11,4,4]]}  
+    name = "NightDemon"
+    deck_name = "NightDemon"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "Attackers gain disadvantage"
+        # if elite:
+        #     innate += ", Shield 1"
+        # if level > 0:
+        #    innate += ", Pierce 1"
+        self.updateProperties(self.properties[level][elite], innate)
+    
+        
+class ShrikeFiend(Monster):
+    properties = {0:[[6,1,2],[8,2,3]], 1:[[8,1,2],[10,2,3]], 2:[[9,1,3],[12,2,4]], 3:[[10,2,3],[16,2,4]]}
+    name = "ShrikeFiend"
+    deck_name = "ShrikeFiend"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = ""
         self.updateProperties(self.properties[level][elite], innate)
         
         

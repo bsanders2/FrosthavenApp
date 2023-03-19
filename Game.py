@@ -73,7 +73,8 @@ class Game():
         for card, monster in zip(cards, monsters):
             print("card ", card, " monster ", monster)
             ret += monster.getName() + ': ' + card.name + ' : ' + str(card.initiative)+'\n'
-            ret += str(monster.calcAction(card)) +'\n'
+            # ret += str(monster.calcAction(card)) +'\n'
+            ret += card.calcAction(monster) + '\n'
         ret += "-"*50+'\n'
         return ret
             

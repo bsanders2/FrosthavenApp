@@ -18,7 +18,7 @@ from Game import Game
 from GUI_Support import MonsterFrame, checkRemove, monsterMoveImages, monsterUI, CONDITION_IMG_SIZE
 from GUI_config import n_rows, n_cols
 
-monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxScout", "FrozenCorpse", "LurkerClawcrusher", "LurkerMindsnipper", "LurkerSoldier"]
+monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxPriest", "AlgoxScout", "DeepTerror", "ForestImp", "FrozenCorpse", "HarrowerInfester", "IceWraith", "LurkerClawcrusher", "LurkerMindsnipper", "LurkerSoldier", "NightDemon", "ShrikeFiend"]
 
 frames = [MonsterFrame(i=i) for i in range(n_cols*n_rows)]
 
