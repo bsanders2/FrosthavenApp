@@ -153,9 +153,9 @@ class Imp(Deck):
         self.addCard(ModifierCard("Nothing Special", 37, False, actions=["move+0", "attack+0. Range 3"]))
         self.addCard(ModifierCard("Nothing Special", 37, False, actions=["move+0", "attack+0. Range 3"]))
         self.addCard(ModifierCard("Restoration", 42, False, actions=["move+1", "Heal 2, Range 3"]))
-        self.addCard(ModifierCard("Rotten Sting", 43, True, actions=["move+0", "attack-1. Range 3, Poison\n\tConsume Random->+1 Target"]))
+        self.addCard(ModifierCard("Rotten Sting", 43, True, actions=["move+0", "attack-1. Range 3, Poison\n  Consume Random->+1 Target"]))
         self.addCard(ModifierCard("Calculated Strike", 76, False, actions=["move-1", "attack+1. Range 3"]))
-        self.addCard(ModifierCard("Dark Charm", 43, True, actions=["move+0", "attack-1. Range 3, Curse\n\tConsume Random->+1 Target"]))
+        self.addCard(ModifierCard("Dark Charm", 43, True, actions=["move+0", "attack-1. Range 3, Curse\n  Consume Random->+1 Target"]))
         self.addCard(ModifierCard("Tip the Scales", 24, False, actions=["Strengthen allies, Range 2", "Muddle enemies, Range 2"]))
         self.shuffle()
         
@@ -250,7 +250,18 @@ class ShrikeFiend(Deck):
         self.addCard(ModifierCard("Birds of Prey", 23, False, actions=["attack-2. Target 3, Range 6, Pull 2", "Consume Dark->Shield 2"]))
         self.shuffle()
     
-
+class WindDemon(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Into Thin Air", 9, False, actions=["attack-1. Range 2", "Heal 1 self", "Consume Wind->Invisible self"]))
+        self.addCard(ModifierCard("Tailwind", 21, True, actions=["move+0", "attack+0. Range 3, Pull 1", "Infuse Wind"]))
+        self.addCard(ModifierCard("Tailwind", 21, True, actions=["move+0", "attack+0. Range 3, Pull 1", "Infuse Wind"]))
+        self.addCard(ModifierCard("Whirlwinds", 29, False, actions=["move+0", "attack-1. Target 2, Range 3\n  Consume Wind->Push 2"]))
+        self.addCard(ModifierCard("Cyclone", 37, False, actions=["move+0", "attack+0. Small melee triangle\n  Consume Wind->+1 attack, bigger area"]))
+        self.addCard(ModifierCard("Cutting Blast", 43, False, actions=["move-1", "attack+1. Range 3\n  Consume Wind->Disarm"]))
+        self.addCard(ModifierCard("Blast of Air", 43, False, actions=["Push 1, Target all, Range 1", "attack+0. Range 4, Disarm\n  Consume Earth->-2 Range"]))
+        self.addCard(ModifierCard("Eye of the Storm", 2, False, actions=["move-1", "attack-1. Range 3", "Shield 1", "Consume Any->Infuse Wind"]))
+        self.shuffle()
     
 
     
