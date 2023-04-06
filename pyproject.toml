@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FrosthavenApp"
+version = "0.0.1"
+authors = [
+  { name="Blake Sanders", email="blake.sanders.ak@gmail.com" },
+]
+description = "Monster Health and Condition tracker for Frosthaven"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/bsanders2/FrosthavenAppt"
+"Bug Tracker" = "https://github.com/bsanders2/FrosthavenApp/issues"

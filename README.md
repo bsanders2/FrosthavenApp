@@ -1,2 +1,5 @@
-# FrosthavenApp
-The images contained here are not my own. They are copyrighted by Isaac Childres and Cephalofair Games.
+# Example Package
+
+This is a simple example package. You can use
+[Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
+to write your content.

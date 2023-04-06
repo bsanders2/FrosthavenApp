@@ -4,8 +4,8 @@ Created on Sat Mar  4 15:31:42 2023
 
 @author: blake
 """
+import MonsterNames
 
-from Monsters import *
 from ModifierCards import DeckFactory
 from difflib import get_close_matches
 import numpy as np

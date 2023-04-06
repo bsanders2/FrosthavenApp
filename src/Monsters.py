@@ -5,7 +5,6 @@ Created on Fri Mar  3 12:21:16 2023
 @author: blake
 """
 
-from ModifierCards import ModifierCard, Deck
 from copy import copy
 
 class Monster:
