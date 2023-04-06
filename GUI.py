@@ -19,8 +19,8 @@ from GUI_Support import MonsterFrame, checkRemove, monsterMoveImages, monsterUI,
 from GUI_config import n_rows, n_cols
 
 monsters = ["AlgoxArcher", "AlgoxGuard", "AlgoxPriest", "AlgoxScout", "DeepTerror", "ForestImp", "FrozenCorpse", 
-            "HarrowerInfester", "IceWraith", "LurkerClawcrusher", "LurkerMindsnipper", "LurkerSoldier", "NightDemon", 
-            "ShrikeFiend", "SnowImp", "WindDemon"]
+            "HarrowerInfester", "Hound", "IceWraith", "LurkerClawcrusher", "LurkerMindsnipper", "LurkerSoldier", 
+            "NightDemon", "PolarBear", "ShrikeFiend", "SnowImp", "WindDemon"]
 
 frames = [MonsterFrame(i=i) for i in range(n_cols*n_rows)]
 
@@ -37,7 +37,8 @@ layout = [
     ])]
     ]
 
-window = sg.Window('Window Title', layout, finalize=True)
+window = sg.Window('Window Title', layout, finalize=True, resizable=True)
+
 # window.finalize()
 game = None
 curr_i = 0

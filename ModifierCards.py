@@ -131,8 +131,20 @@ class HarrowerInfester(Deck):
         self.addCard(ModifierCard("Piercing Parasites", 30, False, actions=["move-1", "attack+0. 3 Hex AOE Line\n  Consume Dark->Heal 2xNum Targeted"]))
         self.addCard(ModifierCard("Clouds of Hate", 38, False, actions=["move+0", "attack-1. Target 2, Impair\n  Consume Dark->+1 Attack"]))
         self.shuffle()
-            
-            
+
+class Hound(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Gripping Teeth", 6, False, actions=["move-1", "attack+0. Immobilize"]))
+        self.addCard(ModifierCard("Harrowing Howl", 7, False, actions=["move+0", "Muddle all, Range 1"]))
+        self.addCard(ModifierCard("Pack Hunting", 19, True, actions=["move+0", "attack+0. Add +2 if target adj. to any of Hound's allies"]))
+        self.addCard(ModifierCard("Pack Hunting", 19, True, actions=["move+0", "attack+0. Add +2 if target adj. to any of Hound's allies"]))
+        self.addCard(ModifierCard("Nothing Special", 26, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Nothing Special", 26, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Calculated Strike", 83, False, actions=["move-2", "attack+1"]))
+        self.addCard(ModifierCard("Sharp Fangs", 72, False, actions=["attack-1. Pierce 2", "move-2", "attack-1. Pierce 2"]))
+        self.shuffle()
+                                 
 class IceWraith(Deck):
     def __init__(self):
         super().__init__()
@@ -222,6 +234,19 @@ class Priest(Deck):
         self.addCard(ModifierCard("Calculated Strike", 74, False, actions=["move-1", "attack+1. Range 3"]))
         self.addCard(ModifierCard("Angry Hex", 9, False, actions=["move+1", "attack-1. Target 2, Range 3, Curse"]))
         self.addCard(ModifierCard("Nothing Special", 62, False, actions=["move+0", "attack+0. Range 3"]))
+        self.shuffle()
+        
+class PolarBear(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Hasty Assault", 13, True, actions=["move+1", "attack-1"]))
+        self.addCard(ModifierCard("Hibernate", 3, False, actions=["Shield 1", "Retaliate 2", "Heal 2 self"]))
+        self.addCard(ModifierCard("Low Slash", 14, False, actions=["move-1", "attack-1. Immobilize"]))
+        self.addCard(ModifierCard("Full Force",29, False, actions=["attack+1. Immobilize"]))
+        self.addCard(ModifierCard("Nothing Special", 41, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Claw Swipes", 61, False, actions=["move+0", "attack-1. Target 2"]))
+        self.addCard(ModifierCard("Calculated Strike", 60, False, actions=["move-1", "attack+1"]))
+        self.addCard(ModifierCard("Rampage", 80, True, actions=["attack-1", "move-2", "attack-1. Impair"]))
         self.shuffle()
         
 class Scout(Deck):

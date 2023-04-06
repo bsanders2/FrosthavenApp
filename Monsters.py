@@ -140,6 +140,16 @@ class HarrowerInfester(Monster):
         # if level > 0 and elite:
         #     innate += ", Retaliate 1"
         self.updateProperties(self.properties[level][elite], innate)
+
+class Hound(Monster):
+    properties = {0:[[4,3,2],[6,5,2]], 1:[[4,4,2],[6,4,2]], 2:[[5,4,2],[7,5,3]], 3:[[8,4,2],[8,5,4]]}
+    name = "Hound"
+    deck_name = "Hound"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" # retaliate
+        self.updateProperties(self.properties[level][elite], innate)
         
 class IceWraith(Monster):
     properties = {0: [[7,2,2],[7,4,3]], 1: [[8,2,2],[8,4,3]], 2:[[10,3,2],[10,5,3]]}
@@ -215,12 +225,22 @@ class NightDemon(Monster):
         # if level > 0:
         #    innate += ", Pierce 1"
         self.updateProperties(self.properties[level][elite], innate)
+        
+class PolarBear(Monster):
+    properties = {0:[[6,2,3],[10,2,4]], 1:[[8,2,3],[12,2,4]], 2:[[10,2,3],[14,3,4]], 3:[[10,3,3],[16,3,5]]}  
+    name = "PolarBear"
+    deck_name = "PolarBear"
+    num_standees = 4
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" # immune to immobilize, stun. Some have innate wound.
+        self.updateProperties(self.properties[level][elite], innate)
     
 class SnowImp(Monster):
     properties = {0:[[2,2,1],[4,2,2]], 1:[[2,2,1],[4,2,2]], 2:[[3,2,1],[5,3,2]], 3:[[3,2,2],[7,3,2]]}
     name = "SnowImp"
     deck_name = "Imp"
-    num_standees = 6
+    num_standees = 10
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
         innate = ""
