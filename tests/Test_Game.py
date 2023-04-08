@@ -8,3 +8,6 @@ def test_Game_init():
     for game in [Game(n) for n in range(10)]:
         assert(game)
 
+def test_Add_Monster_When_Frames_Are_Full():
+    pass
+

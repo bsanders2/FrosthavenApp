@@ -4,8 +4,8 @@ Created on Sat Mar  4 15:31:42 2023
 
 @author: blake
 """
-import MonsterNames
-
+from MonsterNames import importClasses
+monster_classes = importClasses()
 from ModifierCards import DeckFactory
 from difflib import get_close_matches
 import numpy as np
@@ -18,8 +18,8 @@ class Game():
         self.decks = dict()
     
     def addMonster(self, name, elite=0):
-        if name in globals():
-            obj = globals()[name]
+        if name in monster_classes:
+            obj = monster_classes[name]
             monster = obj(self.level, elite)
             standee_choices = set(np.arange(1,monster.num_standees+1))
             active_standees = set([m.standee for m in self.monsters if m.name==monster.name])
@@ -29,7 +29,6 @@ class Game():
                 return None
             standee = list(standee_choices)[np.random.randint(0, len(standee_choices))]
             monster.standee = standee
-            #start here, standees need to be tracked
             self.monsters.append(monster)
             if monster.name not in self.decks.keys():
                 self.decks[monster.name] = DeckFactory.buildDeck(monster.deck_name)

@@ -79,11 +79,20 @@ class AlgoxScout(Monster):
     num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
-        innate = ""
-        if level > 0 and elite:
-            innate = "Impair"
+        innate = "" # Elites have Impair
         self.updateProperties(self.properties[level][elite], innate)
-        
+
+class BurrowingBlade(Monster):
+    properties = {0:[[4,2,2],[5,3,3]], 1:[[4,3,2],[5,4,3]], 2:[[5,3,3],[6,4,4]], 3:[[7,3,3],[7,4,5]]}  
+    name = "BurrowingBlade"
+    deck_name = "BurrowingBlade"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" 
+        self.updateProperties(self.properties[level][elite], innate)
+
+
 class DeepTerror(Monster):
     properties = {0:[[3,None,2],[5,None,3]], 1:[[4,None,2],[6,None,3]], 2:[[4,None,3],[7,None,4]]}  
     name = "DeepTerror"
@@ -94,6 +103,20 @@ class DeepTerror(Monster):
         innate = ""
         # if level > 0 and elite:
         #     innate = "Impair"
+        self.updateProperties(self.properties[level][elite], innate)
+
+class FlamingBladespinner(Monster):
+    properties = {0:[[6,2,2],[8,2,3]], 1:[[6,2,2],[10,2,3]], 2:[[7,2,3],[13,2,3]], 3:[[8,3,3],[15,2,4]]}
+    name = "FlamingBladespinner"
+    deck_name = "FlamingBladespinner"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = ""
+        if elite:
+            innate += "Retaliate 3"
+        else:
+            innate += "Retaliate 2"
         self.updateProperties(self.properties[level][elite], innate)
         
 class ForestImp(Monster):
@@ -168,19 +191,13 @@ class IceWraith(Monster):
         self.updateProperties(self.properties[level][elite], innate)
 
 class LurkerClawcrusher(Monster):
-    properties = {0:[[7,2,2],[10,2,3]], 1:[[8,2,2], [10,2,3]]}
+    properties = {0:[[7,2,2],[10,2,3]], 1:[[8,2,2], [10,2,3]], 2:[[10,3,2],[13,3,3]], 3:[[13,3,2],[14,3,4]]}
     name = "LurkerClawcrusher"
     deck_name = "LurkerClawcrusher"
     num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
-        innate = "Target 2"
-        if level > 0:
-            innate += ", Impair"
-        if elite:
-            innate += ", Shield {}".format(max(level,2))
-        if level > 0 and elite:
-            innate = "Impair"
+        innate = "" # Target 2, Shield varies, Elites have impair
         self.updateProperties(self.properties[level][elite], innate)
         
 class LurkerMindsnipper(Monster):
@@ -198,17 +215,13 @@ class LurkerMindsnipper(Monster):
         self.updateProperties(self.properties[level][elite], innate)
         
 class LurkerSoldier(Monster):
-    properties = {0:[[5,2,2],[7,2,3]], 1:[[7,2,2],[9,2,3]]}  
+    properties = {0:[[5,2,2],[7,2,3]], 1:[[7,2,2],[9,2,3]], 2:[[9,3,2],[11,3,3]], 3:[[10,3,3],[13,3,4]]}
     name = "LurkerSoldier"
     deck_name = "LurkerSoldier"
     num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
-        innate = "Target 2"
-        if elite:
-            innate += ", Shield 1"
-        if level > 0:
-           innate += ", Pierce 1"
+        innate = "" # Pierce, Target 2, Elites have Shield
         self.updateProperties(self.properties[level][elite], innate)
         
 class NightDemon(Monster):
@@ -218,11 +231,17 @@ class NightDemon(Monster):
     num_standees = 6
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
-        innate = "Attackers gain disadvantage"
-        # if elite:
-        #     innate += ", Shield 1"
-        # if level > 0:
-        #    innate += ", Pierce 1"
+        innate = "" # Attackers gain disadvantage
+        self.updateProperties(self.properties[level][elite], innate)
+
+class PiranhaPig(Monster):
+    properties = {0:[[4,2,2],[7,2,3]], 1:[[5,3,2],[7,3,3]], 2:[[6,3,3],[9,4,3]], 3:[[8,3,3],[11,4,4]]}  
+    name = "PiranhaPig"
+    deck_name = "PiranhaPig"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" #  Elites have Wound
         self.updateProperties(self.properties[level][elite], innate)
         
 class PolarBear(Monster):
@@ -233,6 +252,16 @@ class PolarBear(Monster):
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
         innate = "" # immune to immobilize, stun. Some have innate wound.
+        self.updateProperties(self.properties[level][elite], innate)
+
+class RuinedMachine(Monster):
+    properties = {0: [[3,1,1],[5,1,2]], 1:[[5,1,1],[8,1,2]], 2:[[6,2,1],[9,2,2]], 3:[[6,2,2],[10,2,3]]}  
+    name = "RuinedMachine"
+    deck_name = "RuinedMachine"
+    num_standees = 10
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" #Immune to poison
         self.updateProperties(self.properties[level][elite], innate)
     
 class SnowImp(Monster):
@@ -253,6 +282,26 @@ class ShrikeFiend(Monster):
     def __init__(self, level, elite=0):
         super().__init__(level, self.name, elite, self.deck_name)
         innate = ""
+        self.updateProperties(self.properties[level][elite], innate)
+
+class SpittingDrake(Monster):
+    properties = {0:[[4,3,3],[7,3,4]], 1:[[5,3,3],[9,3,4]], 2:[[7,3,3],[10,3,5]], 3:[[8,3,4],[13,3,5]]}
+    name = "SpittingDrake"
+    deck_name = "SpittingDrake"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" # Muddle 
+        self.updateProperties(self.properties[level][elite], innate)
+
+class SteelAutomaton(Monster):
+    properties = {0:[[9,1,3],[10,2,4]], 1:[[9,2,3],[12,2,4]], 2:[[12,2,3],[14,2,5]], 3:[[14,2,4],[17,3,5]]}
+    name = "SteelAutomaton"
+    deck_name = "SteelAutomaton"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" # Immune to poison and disarm. Shield varies
         self.updateProperties(self.properties[level][elite], innate)
         
 class WindDemon(Monster):
