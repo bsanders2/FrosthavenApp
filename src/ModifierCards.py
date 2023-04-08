@@ -15,6 +15,15 @@ class ModifierCard:
         self.initiative = initiative
         self.requires_shuffle = requires_shuffle
         self.actions = actions
+
+    def __str__(self):
+        return self.name
+    
+    def __repr(self):
+        string = self.name+":"+str(self.initiative)+'\n'
+        for a in self.actions:
+            string += a
+        return string
         
     def calcAction(self, monster):
         string = ""
@@ -55,9 +64,6 @@ class Deck():
         return card
         
 class DeckFactory():
-    # decks = {
-    #     'Archer' : Archer
-    #     }
     def __init__(self):
         pass
     
@@ -294,14 +300,14 @@ class PolarBear(Deck):
 class RuinedMachine(Deck):
     def __init__(self):
         super().__init__()
-        self.addCard(ModifierCard("Calculated Strike", 85, False, actions=["move=1","attack+1"]))
+        self.addCard(ModifierCard("Calculated Strike", 85, False, actions=["move+1","attack+1"]))
         self.addCard(ModifierCard("Hasty Assault", 41, False, actions=["move+1", "attack-1"]))
         self.addCard(ModifierCard("Signal Jam", 56, True, actions=["move+0", "Muddle All, Range 2. Ruined Machine Suffers 1"]))
         self.addCard(ModifierCard("Nothing Special", 63, False, actions=["move+0", "attack+0"]))
-        self.addCard(ModifierCard("Devastating Tackle", 42, False, actions=["attack+2. Immobilize", "If attack performed, Suffer 1 self"]))
+        self.addCard(ModifierCard("Devastating Tackle", 42, False, actions=["attack+2. Immobilize", "If Attack performed, Suffer 1 self"]))
         self.addCard(ModifierCard("Latch On", 31, False, actions=["move+1", "Poison, Immobilize, Range 1"]))
-        self.addCard(ModifierCard("Self-Destruct", 93, True, actions=["move+0", "attack+0", "If attack performed all adj enemies suffer trap damage. Ruined machine dies."]))
-        self.addCard(ModifierCard("Fuel Leak", 29, False, actions=["move+1", "If attack performed, Suffer 1 self", "attack+0"]))
+        self.addCard(ModifierCard("Self-Destruct", 93, True, actions=["move+0", "attack+0", "If Attack performed all adj enemies suffer trap damage. Ruined machine dies."]))
+        self.addCard(ModifierCard("Fuel Leak", 29, False, actions=["move+1", "If Attack performed, Suffer 1 self", "attack+0"]))
         self.shuffle()
         
 class Scout(Deck):

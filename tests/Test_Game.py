@@ -11,3 +11,6 @@ def test_Game_init():
 def test_Add_Monster_When_Frames_Are_Full():
     pass
 
+def test_Sort_Action_Outputs():
+    # By initiative and elite first
+    pass

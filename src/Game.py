@@ -59,6 +59,14 @@ class Game():
         print("{} is not in monsters".format(name))
             
     def draw(self):
+        class reversor:
+            def __init__(self, obj):
+                self.obj = obj
+            def __eq__(self, other):
+                return other.obj == self.obj
+            def __lt__(self, other):
+                return other.obj < self.obj
+            
         if len(self.active_monsters) == 0:
             return
         ret = "-"*50+'\n'
@@ -66,7 +74,8 @@ class Game():
         monsters = {m.getName() : m for m in self.monsters}
         print("active monsters ", self.active_monsters)
         
-        cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], monsters.values()), key = lambda x: [x[0].initiative,x[1].getName()]))
+        cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], monsters.values()), 
+                                      key = lambda x: [x[0].initiative,reversor(x[1].getName())]))
         print("cards ", cards)
         print("monsters ", monsters)
         for card, monster in zip(cards, monsters):

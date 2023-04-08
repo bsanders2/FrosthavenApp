@@ -59,32 +59,29 @@ def play():
             
             if event == 'AddMonster':
                 if values['MonsterToAdd'] =="" or values['EliteAdd'] == "":
-                    window['-OUTPUT-'].update("Monster information not set")
+                    # window['-OUTPUT-'].update("Monster information not set")
                     continue
                 elite = 0
                 if values['EliteAdd'] == 'Elite':
                     elite = 1
                 monster = game.addMonster(values['MonsterToAdd'], elite)
                 if monster is None: # out of standees for this monster
-                    window['-OUTPUT-'].update("Out of standees for {}".format(values['MonsterToAdd']))
+                    # window['-OUTPUT-'].update("Out of standees for {}".format(values['MonsterToAdd']))
                     continue
                 frame = MonsterFrame(values['MonsterToAdd'], monster.standee, monster, curr_i)
-                window['-OUTPUT-'].update("Added {} : {} at frame {}".format(values['MonsterToAdd']+' '+['Normal','Elite'][elite], frame.monster.standee, curr_i))
                 frames[curr_i] = frame
                 window['Image'+str(curr_i)].update(frame.image_elem.Data, size=(150,150))
                 window['Spin'+str(curr_i)].update(frame.spin.DefaultValue, frame.spin.Values, size=(8,8))
                 curr_i += 1
 
             if 'Remove' in event:
-                print("\n\n Remove Event")
                 delete_i = int(event.lstrip('Remove'))
                 if delete_i > curr_i or delete_i == curr_i == 0:
-                    window['-OUTPUT-'].update("Cannot remove monster that's not there")
+                    # window['-OUTPUT-'].update("Cannot remove monster that's not there")
                     continue
                 game.removeMonster(frames[delete_i].monster)    
                 monsterMoveImages(window, values, frames, delete_i)
                 curr_i -= 1
-                window['-OUTPUT-'].update("Removed monster {}".format(delete_i))
                 
             if event == 'PlayMove':
                 window['-OUTPUT-'].update(game.draw())
