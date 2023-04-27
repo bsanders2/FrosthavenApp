@@ -10,6 +10,19 @@ from ModifierCards import DeckFactory
 from difflib import get_close_matches
 import numpy as np
 
+def sortDraws(cards, monsters):
+    class reversor:
+        def __init__(self, obj):
+            self.obj = obj
+        def __eq__(self, other):
+            return other.obj == self.obj
+        def __lt__(self, other):
+            return other.obj < self.obj
+        
+    cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], monsters.values()), 
+                            key = lambda x: [x[0].initiative,reversor(x[1].getName())]))
+    return cards, monsters
+
 class Game():
     def __init__(self, level):
         self.level = level
@@ -57,32 +70,23 @@ class Game():
             if m.name == name:
                 return m
         print("{} is not in monsters".format(name))
-            
-    def draw(self):
-        class reversor:
-            def __init__(self, obj):
-                self.obj = obj
-            def __eq__(self, other):
-                return other.obj == self.obj
-            def __lt__(self, other):
-                return other.obj < self.obj
-            
+    
+    def drawCards(self):
         if len(self.active_monsters) == 0:
             return
-        ret = "-"*50+'\n'
         cards = {name : self.decks[name].draw() for name in self.active_monsters}
-        monsters = {m.getName() : m for m in self.monsters}
-        print("active monsters ", self.active_monsters)
-        
-        cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], monsters.values()), 
-                                      key = lambda x: [x[0].initiative,reversor(x[1].getName())]))
-        print("cards ", cards)
-        print("monsters ", monsters)
-        for card, monster in zip(cards, monsters):
-            print("card ", card, " monster ", monster)
-            ret += monster.getName() + ': ' + card.name + ' : ' + str(card.initiative)+'\n'
-            # ret += str(monster.calcAction(card)) +'\n'
-            ret += card.calcAction(monster) + '\n'
+        return cards.values(), self.monsters
+
+    def displayOutput(self, cards, monsters):
+        ret = "-"*50+'\n'
+        if cards and monsters:
+            print("active monsters ", self.active_monsters)
+            print("cards ", cards)
+            print("monsters ", monsters)
+            for card, monster in zip(cards, monsters):
+                print("card ", card, " monster ", monster)
+                ret += monster.getName() + ': ' + card.name + ' : ' + str(card.initiative)+'\n'
+                ret += card.calcAction(monster) + '\n'
         ret += "-"*50+'\n'
         return ret
             

@@ -13,7 +13,7 @@ import traceback
 import numpy as np
 
 # repo packages
-from Game import Game
+from Game import Game, sortDraws
 from GUI_Support import MonsterFrame, monsterMoveImages, monsterUI, CONDITION_IMG_SIZE
 from GUI_config import n_rows, n_cols
 import MonsterNames
@@ -84,7 +84,9 @@ def play():
                 curr_i -= 1
                 
             if event == 'PlayMove':
-                window['-OUTPUT-'].update(game.draw())
+                cards, monsters = game.drawCards()
+                cards, monsters = sortDraws(cards, monsters)
+                window['-OUTPUT-'].update(game.displayOutput(cards, monsters))
                 
             if 'Condition' in event:
                 button_i = int(event[event.rfind('_')+1:])

@@ -6,5 +6,5 @@ _MONSTER_NAMES_ = ["BurrowingBlade", "FlamingBladespinner", "ForestImp",
                 "NightDemon", "PiranhaPig", "PolarBear", "RuinedMachine", "ShrikeFiend", "SnowImp", "SpittingDrake", "SteelAutomaton", "WindDemon"]
 def importClasses():
     from importlib import import_module
-    classes = {name : getattr(import_module('Monsters'), name) for name in _MONSTER_NAMES_}
-    return classes
+    names_classes = {name : getattr(import_module('Monsters'), name) for name in _MONSTER_NAMES_}
+    return names_classes

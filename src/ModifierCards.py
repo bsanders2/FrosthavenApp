@@ -346,7 +346,7 @@ class SpittingDrake(Deck):
         self.addCard(ModifierCard("Calculated Strike", 87, False, actions=["Calculated Strike", "move-1", "attack-1. Range 4"]))
         self.addCard(ModifierCard("Subduing Spit", 89, False, actions=["attack-1. Range 4, Stun"]))
         self.addCard(ModifierCard("Empowering Rest", 6, False, actions=["Shield 2", "Heal 2 self, Strengthen self"]))
-        self.addCard(ModifierCard("Explosive Vomit", 89, True, actions=["move-1", "attack-2, Range 3, Poison, AOI Flower"]))
+        self.addCard(ModifierCard("Explosive Vomit", 89, True, actions=["move-1", "attack-2. Range 3, Poison, AOI Flower"]))
         self.shuffle()
 
 class SteelAutomaton(Deck):
