@@ -92,6 +92,15 @@ class BurrowingBlade(Monster):
         innate = "" 
         self.updateProperties(self.properties[level][elite], innate)
 
+class ChaosDemon(Monster):
+    properties = {0:[[7,3,2],[10,4,3]], 1:[[8,3,3],[12,4,4]], 2:[[11,3,3],[14,4,5]], 3:[[12,3,4],[18,5,5]]}
+    name = "ChaosDemon"
+    deck_name = "ChaosDemon"
+    num_standees = 1
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" # Muddle
+        self.updateProperties(self.properties[level][elite], innate)
 
 class DeepTerror(Monster):
     properties = {0:[[3,None,2],[5,None,3]], 1:[[4,None,2],[6,None,3]], 2:[[4,None,3],[7,None,4]]}  
@@ -253,6 +262,16 @@ class PolarBear(Monster):
         super().__init__(level, self.name, elite, self.deck_name)
         innate = "" # immune to immobilize, stun. Some have innate wound.
         self.updateProperties(self.properties[level][elite], innate)
+
+class RoboticBoltshooter(Monster):
+    properties = {0: [[4,1,1],[7,1,1]], 1:[[4,1,2],[7,1,2]], 2:[[6,1,2],[9,1,2]], 3:[[6,1,2],[10,1,2]]}  
+    name = "RoboticBoltshooter"
+    deck_name = "RoboticBoltshooter"
+    num_standees = 6
+    def __init__(self, level, elite=0):
+        super().__init__(level, self.name, elite, self.deck_name)
+        innate = "" # Multiple targets
+        self.updateProperties(self.properties[level][elite], innate)     
 
 class RuinedMachine(Monster):
     properties = {0: [[3,1,1],[5,1,2]], 1:[[5,1,1],[8,1,2]], 2:[[6,2,1],[9,2,2]], 3:[[6,2,2],[10,2,3]]}  

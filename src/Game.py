@@ -11,6 +11,11 @@ from difflib import get_close_matches
 import numpy as np
 
 def sortDraws(cards, monsters):
+    """
+    params
+    cards: dict of {name: ModifierCard}
+    monsters: list of Monster
+    """
     class reversor:
         def __init__(self, obj):
             self.obj = obj
@@ -19,7 +24,10 @@ def sortDraws(cards, monsters):
         def __lt__(self, other):
             return other.obj < self.obj
         
-    cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], monsters.values()), 
+    if not(cards and monsters):
+        return None, None
+    
+    cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters], monsters), 
                             key = lambda x: [x[0].initiative,reversor(x[1].getName())]))
     return cards, monsters
 
@@ -73,9 +81,10 @@ class Game():
     
     def drawCards(self):
         if len(self.active_monsters) == 0:
-            return
+            return None, None
         cards = {name : self.decks[name].draw() for name in self.active_monsters}
-        return cards.values(), self.monsters
+        
+        return cards, self.monsters
 
     def displayOutput(self, cards, monsters):
         ret = "-"*50+'\n'

@@ -1,6 +1,6 @@
 
 
-from Game import Game
+from Game import Game, sortDraws
 from MonsterNames import importClasses
 monster_classes = importClasses()
 
@@ -28,8 +28,8 @@ def test_Game_Add_And_Remove_Standees():
 
 def test_Draw():
     game = Game(1)
-    null_ret = game.drawCards() 
-    assert null_ret == None
+    n1, n2 = game.drawCards() 
+    assert n1 == n2 == None
 
     for mname, _ in monster_classes.items():
         game.addMonster(mname, elite=0)
@@ -44,8 +44,8 @@ def test_Dont_Draw_For_Inactive_Monsters():
     for name in monster_classes.keys():
         monster = game.addMonster(name)
         game.removeMonster(monster)
-        ret = game.drawCards()
-        assert ret is None
+        ret1, ret2 = game.drawCards()
+        assert ret1 == ret2 == None
         assert monster not in game.monsters
 
 def test_displayOutput():
@@ -57,6 +57,7 @@ def test_displayOutput():
     for mname in monster_classes.keys():
         game.addMonster(mname)
         cards, monsters = game.drawCards()
+        cards, monsters = sortDraws(cards, monsters)
         game.displayOutput(cards, monsters)
 
 

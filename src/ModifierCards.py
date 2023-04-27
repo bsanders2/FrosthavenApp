@@ -101,6 +101,20 @@ class BurrowingBlade(Deck):
         self.addCard(ModifierCard("Crashing Blow", 85, False, actions=["attack+2.\n  Consume Earth->+2"]))
         self.shuffle()
 
+class ChaosDemon(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Chilling Breath", 14, False, actions=["move-1.", "attack+0. 2 adj Hex melee AOE", "Consume Frost->Retaliate 2, Range 2"]))
+        self.addCard(ModifierCard("Heat Blast", 1, False, actions=["move+1", "attack-1. Range 2\n  Consume Fire->Wound"]))
+        self.addCard(ModifierCard("Seismic Punch", 67, False, actions=["move-2.", "attack+1. Push 2\n  Consume Earth->2 adj Hex Melee AOE"]))
+        self.addCard(ModifierCard("Whirlwind", 20, False, actions=["move+0", "attack-1. Range 2, small triangle AOE", "Consume Wind->Shield 2"]))
+        self.addCard(ModifierCard("White Claws", 42, False, actions=["move+0", "attack+0. Advantage", "Consume Light->Heal 4 self"]))
+        self.addCard(ModifierCard("Black Tendrils", 51, False, actions=["move-1", "attack+1", "Consume Dark->Invisible self"]))
+        self.addCard(ModifierCard("Arcane Explosion", 77, True, actions=["move+0", "attack+0", "Infuse All Elements"]))
+        self.addCard(ModifierCard("Hungry Maw", 98, True, actions=["move-1", "attack-1.\n  Consume Any->Apply Bane"]))
+        self.shuffle()
+        
+
 # class DeepTerror(Deck):
 #     def __init__(self):
 #         super().__init__()
@@ -295,6 +309,19 @@ class PolarBear(Deck):
         self.addCard(ModifierCard("Claw Swipes", 61, False, actions=["move+0", "attack-1. Target 2"]))
         self.addCard(ModifierCard("Calculated Strike", 60, False, actions=["move-1", "attack+1"]))
         self.addCard(ModifierCard("Rampage", 80, True, actions=["attack-1", "move-2", "attack-1. Impair"]))
+        self.shuffle()
+
+class RoboticBoltshooter(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Calculated Shot", 83, False, actions=["move-1", "attack+1. Range 5"]))
+        self.addCard(ModifierCard("Safety Valve", 22, True, actions=["move-1", "attack-1. Range 4", "Shield 2"]))
+        self.addCard(ModifierCard("Sharpshooter", 44, False, actions=["move+1", "attack-1. Range 5, Pierce 2"]))
+        self.addCard(ModifierCard("Retracted Assault", 48, False, actions=["move-1", "attack+0. Range 4", "Shield 1"]))
+        self.addCard(ModifierCard("Nothing Special", 57, False, actions=["move+0", "attack+0. Range 5"]))
+        self.addCard(ModifierCard("Ballista Bolt", 91, False, actions=["attack+2. -1 Target, Range 4"]))
+        self.addCard(ModifierCard("Focus Fire", 78, False, actions=["move+0", "attack-1. Target 1 enemy w/ all attack"]))
+        self.addCard(ModifierCard("Repair Drones", 16, True, actions=["Shield 1", "Heal 3 self"]))
         self.shuffle()
 
 class RuinedMachine(Deck):
