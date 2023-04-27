@@ -18,12 +18,12 @@ class Game():
         self.decks = dict()
     
     def addMonster(self, name, elite=0):
-        if name in monster_classes:
+        if name in monster_classes.keys():
             obj = monster_classes[name]
             monster = obj(self.level, elite)
             standee_choices = set(np.arange(1,monster.num_standees+1))
             active_standees = set([m.standee for m in self.monsters if m.name==monster.name])
-            print("active_standees ", active_standees)
+            # print("active_standees ", active_standees)
             standee_choices = standee_choices - active_standees
             if len(standee_choices) == 0:
                 return None
@@ -31,7 +31,7 @@ class Game():
             monster.standee = standee
             self.monsters.append(monster)
             if monster.name not in self.decks.keys():
-                self.decks[monster.name] = DeckFactory.buildDeck(monster.deck_name)
+                self.decks[monster.name] = DeckFactory.buildDeck(monster.name)
             self.active_monsters.add(monster.name)
             return monster
         else:
