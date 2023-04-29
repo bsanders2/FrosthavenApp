@@ -19,3 +19,19 @@ to write your content.
 
 # Using the GUI
 ![GUI window immediately after running the play command.](assets/Default_GUI.PNG)
+
+- First set the level of the scenario using the field next to the StartGameButton
+- To add a monster, select the monster from the drop down next to the AddMonster button. Select Normal or Elite. Then click AddMonster
+    - The standee number of the monster will be selected for you and appear on the image
+- The PlayMove button will draw cards and calculate move and attack values for each monster on the board
+- You can track conditions on the monsters by clicking the corresponding buttons to the right of the monster image
+- You can record damage on the monster by selecting their current health from the drop down next to the monster image
+- When a monster reaches 0 health you can remove it by clicking the remove button
+
+# Features implemented so far
+- Attack modifier card management
+    - Automatic deck shuffling
+    - Pulling cards for active monsters
+- Calculating attack and move values based on scenario level
+    - Elite vs. Non-Elite
+- Monster health book keeping helper
