@@ -36,4 +36,4 @@ to write your content.
     - Pulling cards for active monsters
 - Calculating attack and move values based on scenario level
     - Elite vs. Non-Elite
-- Monster health book keeping helper
+- Monster health and conditions book keeping helper

@@ -14,29 +14,29 @@ import numpy as np
 from Monsters import Monster
 from GUI.GUI_config import n_rows, n_cols
 
-Strengthen_f0 = './ConditionImages/Strengthen0.png'
-Strengthen_f1 = './ConditionImages/Strengthen1.png'
-Stun_f0 = './ConditionImages/Stun0.png'
-Stun_f1 = './ConditionImages/Stun1.png'
-Poison_f0 = './ConditionImages/Poison0.png'
-Poison_f1 = './ConditionImages/Poison1.png'
-Muddle_f0 = './ConditionImages/Muddle0.png'
-Muddle_f1 = './ConditionImages/Muddle1.png'
-Invisible_f0 = './ConditionImages/Invisible0.png'
-Invisible_f1 = './ConditionImages/Invisible1.png'
-Disarm_f0 = './ConditionImages/Disarm0.png'
-Disarm_f1 = './ConditionImages/Disarm1.png'
-Brittle_f0 = './ConditionImages/Brittle0.png'
-Brittle_f1 = './ConditionImages/Brittle1.png'
-Wound_f0 = './ConditionImages/Wound0.png'
-Wound_f1 = './ConditionImages/Wound1.png'
+Strengthen_f0 = './assets/ConditionImages/Strengthen0.png'
+Strengthen_f1 = './assets/ConditionImages/Strengthen1.png'
+Stun_f0 = './assets/ConditionImages/Stun0.png'
+Stun_f1 = './assets/ConditionImages/Stun1.png'
+Poison_f0 = './assets/ConditionImages/Poison0.png'
+Poison_f1 = './assets/ConditionImages/Poison1.png'
+Muddle_f0 = './assets/ConditionImages/Muddle0.png'
+Muddle_f1 = './assets/ConditionImages/Muddle1.png'
+Invisible_f0 = './assets/ConditionImages/Invisible0.png'
+Invisible_f1 = './assets/ConditionImages/Invisible1.png'
+Disarm_f0 = './assets/ConditionImages/Disarm0.png'
+Disarm_f1 = './assets/ConditionImages/Disarm1.png'
+Brittle_f0 = './assets/ConditionImages/Brittle0.png'
+Brittle_f1 = './assets/ConditionImages/Brittle1.png'
+Wound_f0 = './assets/ConditionImages/Wound0.png'
+Wound_f1 = './assets/ConditionImages/Wound1.png'
 CONDITION_NAMES = ['Strengthen', 'Stun', 'Poison', 'Muddle', 'Invisible', 'Disarm', 'Brittle', 'Wound']
 CONDITION_IMG_SIZE = (24,24)
 
 def loadImage(monster, maxsize=(150, 150)):
     """Generate image data using PIL
     """
-    img = Image.open(os.path.join('MonsterImages',monster.name+'.webp'))
+    img = Image.open(os.path.join('./assets/MonsterImages',monster.name+'.webp'))
     if 'Default' in monster.name:
         img = ImageEnhance.Color(img).enhance(1.5)
         img.thumbnail(maxsize)
@@ -44,7 +44,7 @@ def loadImage(monster, maxsize=(150, 150)):
         img.thumbnail(maxsize)
         if monster.elite:
             img = ImageOps.expand(img, border=5,fill=('yellow'))
-        num = Image.open(os.path.join('MonsterImages',str(monster.standee)+'.jpg'))
+        num = Image.open(os.path.join('./assets/MonsterImages',str(monster.standee)+'.jpg'))
         num.thumbnail((25,25))
         num = num.convert('RGBA')
         # img = img.convert('RGBA')
