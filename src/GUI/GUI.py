@@ -35,7 +35,7 @@ def play():
         ])]
         ]
 
-    window = sg.Window('Window Title', layout, finalize=True, resizable=True)
+    window = sg.Window('FrosthavenApp', layout, finalize=True, resizable=True)
 
     # window.finalize()
     game = None

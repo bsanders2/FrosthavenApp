@@ -16,3 +16,6 @@ to write your content.
     - $ python -m pip install .
 4. Start the GUI with the entrypoint "play"
     - $ play
+
+# Using the GUI
+![GUI window immediately after running the play command.](assets/Default_GUI.PNG)
