@@ -4,7 +4,7 @@ setup(
     # ...,
     entry_points={
         'console_scripts': [
-            'play = GUI:play',
+            'play = GUI.GUI:play',
         ]
     }
 )

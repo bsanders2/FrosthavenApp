@@ -12,7 +12,7 @@ import io
 import numpy as np
 
 from Monsters import Monster
-from GUI_config import n_rows, n_cols
+from GUI.GUI_config import n_rows, n_cols
 
 Strengthen_f0 = './ConditionImages/Strengthen0.png'
 Strengthen_f1 = './ConditionImages/Strengthen1.png'

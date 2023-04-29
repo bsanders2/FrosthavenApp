@@ -334,7 +334,7 @@ class RuinedMachine(Deck):
         self.addCard(ModifierCard("Devastating Tackle", 42, False, actions=["attack+2. Immobilize", "If Attack performed, Suffer 1 self"]))
         self.addCard(ModifierCard("Latch On", 31, False, actions=["move+1", "Poison, Immobilize, Range 1"]))
         self.addCard(ModifierCard("Self-Destruct", 93, True, actions=["move+0", "attack+0", "If Attack performed all adj enemies suffer trap damage. Ruined machine dies."]))
-        self.addCard(ModifierCard("Fuel Leak", 29, False, actions=["move+1", "If Attack performed, Suffer 1 self", "attack+0"]))
+        self.addCard(ModifierCard("Fuel Leak", 29, False, actions=["move+1", "If Move performed, Suffer 1 self", "attack+0"]))
         self.shuffle()
         
 class Scout(Deck):

@@ -27,7 +27,7 @@ def sortDraws(cards, monsters):
     if not(cards and monsters):
         return None, None
     
-    cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters], monsters), 
+    cards, monsters = zip(*sorted(zip([cards[m.name] for m in monsters.values()], [monsters[m.getName()] for m in monsters.values()]), 
                             key = lambda x: [x[0].initiative,reversor(x[1].getName())]))
     return cards, monsters
 
@@ -83,8 +83,8 @@ class Game():
         if len(self.active_monsters) == 0:
             return None, None
         cards = {name : self.decks[name].draw() for name in self.active_monsters}
-        
-        return cards, self.monsters
+        monsters = {m.getName() : m for m in self.monsters}
+        return cards, monsters
 
     def displayOutput(self, cards, monsters):
         ret = "-"*50+'\n'

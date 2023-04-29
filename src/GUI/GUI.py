@@ -14,8 +14,8 @@ import numpy as np
 
 # repo packages
 from Game import Game, sortDraws
-from GUI_Support import MonsterFrame, monsterMoveImages, monsterUI, CONDITION_IMG_SIZE
-from GUI_config import n_rows, n_cols
+from GUI.GUI_Support import MonsterFrame, monsterMoveImages, monsterUI, CONDITION_IMG_SIZE
+from GUI.GUI_config import n_rows, n_cols
 import MonsterNames
 
 
