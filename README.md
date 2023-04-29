@@ -28,6 +28,8 @@ to write your content.
 - You can record damage on the monster by selecting their current health from the drop down next to the monster image
 - When a monster reaches 0 health you can remove it by clicking the remove button
 
+![GUI with some monsters and modifier cards drawn.](assets/GUI_with_monsters.PNG)
+
 # Features implemented so far
 - Attack modifier card management
     - Automatic deck shuffling
