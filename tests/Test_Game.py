@@ -5,7 +5,7 @@ from MonsterNames import importClasses
 monster_classes = importClasses()
 
 def test_Game_init():
-    for game in [Game(n) for n in range(10)]:
+    for game in [Game(n) for n in range(8)]:
         assert(game)
 
 def test_Game_Add_And_Remove_Standees():

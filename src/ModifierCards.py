@@ -28,18 +28,15 @@ class ModifierCard:
     def calcAction(self, monster):
         string = ""
         for action in self.actions:
-            a = action.split(".")
-            if "move" in a[0]:
-                mod = int(a[0].lstrip("move"))
-                string += "Move " + str(monster.move+mod)
-            elif "attack" in a[0]:
-                mod = int(a[0].lstrip("attack"))
-                string += "Attack " + str(monster.attack+mod)
-            else:
-                string += a[0] + "\n"
-            if len(a) > 1:
-                for s in a[1:]:
-                    string += s + "\n"
+            for a in action.split("."):
+                if a.find("move") == 0:
+                    mod = int(a.lstrip("move"))
+                    string += "Move " + str(monster.move+mod)
+                elif a.find("attack") == 0:
+                    mod = int(a.lstrip("attack"))
+                    string += "Attack " + str(monster.attack+mod)
+                else:
+                    string += a
             if string[-1] != "\n":
                 string += "\n"
         return string
@@ -75,18 +72,71 @@ class DeckFactory():
     
 ### Deck classes, names may or may not be the same as the Monster class names
 ### Names here correspond to the deck_name attribute of the Monster class
-# class Archer(Deck):
-#     def __init__(self):
-#         super().__init__()
-#         self.addCard(ModifierCard("Nothing Special", 31, False, 0, 1, 4, None))
-#         self.addCard(ModifierCard("Hasty Assault", 16, False, 1, -1, 4, None))
-#         self.addCard(ModifierCard("Calculated Strike", 44, False, -1, 1, 4, None))
-#         self.addCard(ModifierCard("Set Trap", 14, False, -1, -1, 5, "Create one 3 damage trap in an adjacent empty hex closest to an enemy"))
-#         self.addCard(ModifierCard("Shoot Foot", 29, True, 0, -1, 5, "Immobilize"))
-#         self.addCard(ModifierCard("Close In", 32, False, 0, 1, 3, None))
-#         self.addCard(ModifierCard("Power Shot", 64, True, None, 1, 5, None))
-#         self.addCard(ModifierCard("Twin Bolts", 56, False, None, -1, 4, "Target 2"))
-#         self.shuffle()
+
+class AbaelHerder(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Briny Bristles", 18, False, actions=["move-1", "Grant closest Piranha Pig within Range 5->\n Move+0\n Attack+1"]))
+        self.addCard(ModifierCard("Desperate Herd", 72, False, actions=["move-1", "Grant all Piranha Pigs within Range 3\n Move-2\n Attack-2, Piranha Pig suffers 1 damage"]))
+        self.addCard(ModifierCard("Pig Parade", 68, True, actions=["Summon one normal Piranha Pig"]))
+        self.addCard(ModifierCard("Fish Net", 20, False, actions=["move+0", "attack+0. Range 3, Pull 2, Immobilize"]))
+        self.addCard(ModifierCard("Advancing Horde", 88, False, actions=["Grant closest Piranha Pig within Range 4\n Move+0\n Attack+0, Muddle", "If no Piranha Pig was targeted, summon one normal Piranha Pig"]))
+        self.addCard(ModifierCard("Guide the School", 12, False, actions=["attack+0. Range 3", "Strengthen all Piranha Pigs, Range 3"]))
+        self.addCard(ModifierCard("Heed The Pigs", 65, True, actions=["move+0", "Attack X, X is number of Piranha Pigs on the map"]))
+        self.addCard(ModifierCard("Nothing Special", 56, False, actions=["move+0", "attack+0. Range 3"]))
+        self.shuffle()
+
+class AlgoxIcespeaker(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Warding Swipe", 17, True, actions=["move+1", "attack-1. Target 4 adj spaces next to each other", "Shield 1, Infuse Earth"]))
+        self.addCard(ModifierCard("Knockout Punch", 76, False, actions=["move+0", "attack-1. Stun", "Infuse Frost"]))
+        self.addCard(ModifierCard("Two-Fisted Strike", 41, False, actions=["move-1", "attack-1.\n Consume Frost->+2", "attack-1.\n Consume Earth->+2"]))
+        self.addCard(ModifierCard("Frozen Debris", 39, False, actions=["move-1", "attack+0. Range 3\n Consume Frost->Immobilize"]))
+        self.addCard(ModifierCard("Ice Wall", 8, False, actions=["Create 1 hex obtacle adj to enemy", "All enemies adj to the obstacle suffer hazardous terrain damage", "Infuse Frost and Earth"]))
+        self.addCard(ModifierCard("Nothing Special", 56, True, actions=["move+0", "attack+0","Infuse Earth"]))
+        self.addCard(ModifierCard("Terrifying Growl", 80, False, actions=["attack+0", "Disarm all, Range 2"]))
+        self.addCard(ModifierCard("One with the Earth", 12, False, actions=["Shield 3", "Consume Earth->Heal 1 self", "Heal 3 self"]))
+        self.shuffle()
+
+class AlgoxSnowspeaker(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Blinding Vortex", 22, False, actions=["move+0", "attack-1. Range 3, Muddle, Flower AOE", "Infuse Wind"]))
+        self.addCard(ModifierCard("Cold Winds", 18, False, actions=["attack+0. Target 2, Range 5\n Consume Frost->Immobilize"]))
+        self.addCard(ModifierCard("Sleet", 43, False, actions=["move+0", "attack+1. Range 4", "Infuse Frost"]))
+        self.addCard(ModifierCard("Blistering Assault", 30, False, actions=["move+0", "attack-1. Range 4, Push 1\n Consume Wind->+2 Push"]))
+        self.addCard(ModifierCard("Snowstorm", 6, True, actions=["All enemies in Range 3 suffer 2 damage", "Push 2, Target all, Range 3", "Infuse Frost, Infuse Wind"]))
+        self.addCard(ModifierCard("Hail", 59, False, actions=["move-1", "attac+1. Range 5\n Consume Frost->+2"]))
+        self.addCard(ModifierCard("Nothing Special", 27, False, actions=["Move+0", "attack+0", "Infuse Wind"]))
+        self.addCard(ModifierCard("Snow Drifts", 66, False, actions=["Immobilize all, Range 6", "Consume Wind->Muddle all, Range 6"]))
+        self.shuffle()
+
+class AncientArtillery(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Exploding Ammunition", 71, True, actions=["attack+0. Range 5, All enemies adj to target suffer 2 damage"]))
+        self.addCard(ModifierCard("Grenade", 37, False, actions=["Push 1, Target all, Range 1", "attack-1. Range 4, small triangle AOE"]))
+        self.addCard(ModifierCard("Heavy Shot", 95, False, actions=["attack+1. Range 5"]))
+        self.addCard(ModifierCard("Concussive Burst", 46, False, actions=["attack-1. Range 5, Immobilize, small triangle AOE"]))
+        self.addCard(ModifierCard("Long Shot", 46, False, actions=["Focus enemy farthest away within Range 7", "attack-1. Range 7"]))
+        self.addCard(ModifierCard("Exploding Ammunition", 71, True, actions=["attack+0. Range 5, All enemies adj to target suffer 2 damage"]))
+        self.addCard(ModifierCard("Massive Blast", 57, False, actions=["Push 1, Target all, Range 1", "attack-1. Range 3, large flower AOE"]))
+        self.addCard(ModifierCard("Defensive Ordinance", 17, False, actions=["Push 2, Target all, Range 1", "attack-2. Range 5", "Shield 2"]))
+        self.shuffle()
+
+class Archer(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Hasty Assault", 16, False, actions=["move+1", "attack-1. Range 4"]))
+        self.addCard(ModifierCard("Nothing Special", 31, False, actions=["move+0", "attack+0. Range 4"]))
+        self.addCard(ModifierCard("Calculated Strike", 44, False, actions=["move-1", "attack+1. Range 4"]))
+        self.addCard(ModifierCard("Twin Bolts", 56, False, actions=["attack+1. Target 2, Range 4"]))
+        self.addCard(ModifierCard("Power Shot", 64, True, actions=["attack+1. Range 5"]))
+        self.addCard(ModifierCard("Close In", 32, False, actions=["move+0", "attack+1. Range 3"]))
+        self.addCard(ModifierCard("Shoot Foot", 29, True, actions=["move+0", "attack-1. Range 5, Immobilize"]))
+        self.addCard(ModifierCard("Set Trap", 14, False, actions=["move-1", "attack-1. Range 5", "Create one 3 damage trap in an adj empty hex closest to an enemy"]))
+        self.shuffle()
 
 class BurrowingBlade(Deck):
     def __init__(self):
@@ -115,31 +165,71 @@ class ChaosDemon(Deck):
         self.shuffle()
         
 
-# class DeepTerror(Deck):
-#     def __init__(self):
-#         super().__init__()
-#         self.addCard(ModifierCard("Horrible Glare", 65, False, actions=["attack-1. Target 3, Range 3, Curse"]))
-#         self.addCard(ModifierCard("Beam of Annihilation", 60, True, actions=["attack+0. Pierce 3, 5 Hex AOE Line"]))
-#         self.addCard(ModifierCard("Beam of Annihilation", 60, True, actions=["attack+0. Pierce 3, 5 Hex AOE Line"]))
-#         self.addCard(ModifierCard("Burning Gaze", 84, False, actions=["attack-1. Target all adjacent enemies", "attack+0. Range 4, Wound"]))
-#         self.addCard(ModifierCard("Rooted Fear", 75, False, actions=["attack-1. Poison", "attack-1. Range 5, Immobilize"]))
-#         self.addCard(ModifierCard("Disruptive Frenzy", 75, False, actions=["attack-2. Disarm", "attack-1. Target 2, Range 3, Impair"]))
-#         self.addCard(ModifierCard("Terrible Growth", 96, False, actions=["attack-2. Range 6\n  Summon normal deep terror adjacent to target"]))
-#         self.addCard(ModifierCard("Ray of Hate", 54, False, actions=["Wound, Poison, Target all enemies in Range 1", "attack+0. Range 4"]))
-#         self.shuffle()
+class DeepTerror(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Ray of Heat", 54, False, actions=["Wound, Poison, Target all Range 1", "attack+0. Range 4"]))
+        self.addCard(ModifierCard("Terrible Growth", 96, False, actions=["attack-2. Range6 \n If attack was performed, summon one normal Deep Terror in empty hex adj to target"]))
+        self.addCard(ModifierCard("Disruptive Frenzy", 75, False, actions=["attack-2. Disarm", "attack-1. Target 2, Range 3, Impiar"]))
+        self.addCard(ModifierCard("Rooted Fear", 75, False, actions=["attack-1. Poison", "attack-1. Range 5, Immobilize"]))
+        self.addCard(ModifierCard("Burning Gaze", 84, False, actions=["attack-1. Target all adj enemies", "attack+0. Range 5, Wound"]))
+        self.addCard(ModifierCard("Beam of Annihilation", 60, True, actions=["attack+0. Pierce 2, Line AoE 5 hexes in front"]))
+        self.addCard(ModifierCard("Beam of Annihilation", 60, True, actions=["attack+0. Pierce 2, Line AoE 5 hexes in front"]))
+        self.addCard(ModifierCard("Horrible Glare", 65, False, actions=["attack-1. Range 3, Target 3, Curse"]))
+        self.addCard(ModifierCard("Ray of Hate", 54, False, actions=["Wound, Poison all, Range 1", "attack+0. Range 4"]))
+        self.shuffle()
 
-# class FrozenCorpse(Deck):
-#     def __init__(self):
-#         super().__init__()
-#         self.addCard(ModifierCard("Nothing Special", 71, True, 0, 0, None, "Infuse Ice"))
-#         self.addCard(ModifierCard("Frost Breath", 39, True, 0, -1, None, "Infuse Ice, Range 2 Cone"))
-#         self.addCard(ModifierCard("Cold Snap", 42, False, 1, -1, None, "Confuse Ice -> Cause Brittle"))
-#         self.addCard(ModifierCard("Thawed Strike", 68, False, -1, 1, None, "Consume Fire -> +2 Move, Suffer 2 damage"))
-#         self.addCard(ModifierCard("Icy Swipe", 84, False, -1, 1, None, "Infuse Ice, Range 1 Cone"))
-#         self.addCard(ModifierCard("Thawed Strike", 68, False, -1, 1, None, "Consume Fire -> +2 Move, Suffer 2 damage"))
-#         self.addCard(ModifierCard("Freezing Embrace", 23, False, 1, None, None, "Brittle, Immobilize, Range 1"))
-#         self.addCard(ModifierCard("Cold Snap", 42, False, 1, -1, None, "Consume Ice -> Cause Brittle"))
-#         self.shuffle()     
+class EarthDemon(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Hasty Assault", 42, True, actions=["move+1", "attack-1"]))
+        self.addCard(ModifierCard("Nothing Special", 62, False, actions=["move+0", "attack+0", "Infuse Earth"]))
+        self.addCard(ModifierCard("Boulder Throw", 71, False, actions=["attack+0. Range 4\n Consume Earth->+1 Target"]))
+        self.addCard(ModifierCard("Calculated Strike", 83, False, actions=["move-1", "attack+1", "Infuse Earth"]))
+        self.addCard(ModifierCard("Ground Slam", 93, False, actions=["move-1", "attack-1. Target all adj enemies\n Consume Earth->Push 1"]))
+        self.addCard(ModifierCard("Reckless Charge", 79, False, actions=["move+1", "attack+0.\n Consume Wind->(-)2"]))
+        self.addCard(ModifierCard("Earthen Eruption", 87, False, actions=["move+0", "attack-1. Little triangle adj AoE\n Consume Any->Infuse Earth"]))
+        self.addCard(ModifierCard("Strong Growth", 40, True, actions=["Heal 4 self", "Consume Earth->Immobilize all, Range 2"]))
+        self.shuffle()
+        
+class FlameDemon(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Intense Torch", 49, False, actions=["attack+0. 2 hex line AoE\n Consume Fire->+1 damage, Wound"]))
+        self.addCard(ModifierCard("Heat Aura", 77, False, actions=["attack+0. Target all adj enemies", "Consume Frost->take 1 damage"]))
+        self.addCard(ModifierCard("Nothing Special", 24, False, actions=["move+0", "attack+0. Range 4", "Infuse Fire"]))
+        self.addCard(ModifierCard("Raging Blaze", 30, True, actions=["Consume Fire->All adj enemies suffer 1 damage", "move+0", "attack-2. Target 2, Range 4, Wound"]))
+        self.addCard(ModifierCard("Fire Spout", 8, False, actions=["move-1", "Create one 4 damage trap in adj hex closest to enemy", "Consume Any->Infuse Fire"]))
+        self.addCard(ModifierCard("Calculated Strike", 67, False, actions=["move-1", "attack+1. Range 3", "Infuse Fire"]))
+        self.addCard(ModifierCard("Explosive Blast", 46, True, actions=["attack+0. Range 5\n Consume Fire->Large flower and -1 Range"]))
+        self.addCard(ModifierCard("Hasty Assault", 3, False, actions=["move+1", "attack-1. Range 4", "Infuse Fire"]))
+        self.shuffle()
+
+class FrostDemon(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Intense Torch", 49, False, actions=["Immobilize all, Range 2", "Consume Frost-> Heal 3 self"]))
+        self.addCard(ModifierCard("Hasty Assault", 38, False, actions=["move+1", "attack-1"]))
+        self.addCard(ModifierCard("Frozen Shards", 58, False, actions=["move-1", "attack+0. Range 2\n Consume Frost->+2 attack, +1 Range"]))
+        self.addCard(ModifierCard("Nothing Special", 58, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Cold Claws", 78, True, actions=["move-1", "attack+0. 2 Hex melee AoE adjacent Hex"]))
+        self.addCard(ModifierCard("Cold Claws", 78, True, actions=["move-1", "attack+0. 2 Hex melee AoE adjacent Hex"]))
+        self.addCard(ModifierCard("Chilld to the Bone", 58, False, actions=["move-1", "attack-1. Pierce 3\n Consume any->Infuse Frost"]))
+        self.addCard(ModifierCard("Ice Barrier", 18, False, actions=["move+1", "Shield 2", "Consume Fire->1 damage self"]))
+        self.shuffle()
+
+class FrozenCorpse(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Cold Snap", 42, False, actions=["move+1", "attack-1.\n Consume Frost->Brittle"]))
+        self.addCard(ModifierCard("Thawed Strike", 68, False, actions=["move-1.\n Consume Fire->+2 move\n If the element is consumed by the move, suffer 2 damage", "attack+1"]))
+        self.addCard(ModifierCard("Freezing Embrace", 23, False, actions=["move+1", "Brittle, Immobilize, Range 1"]))
+        self.addCard(ModifierCard("Thawed Strike", 68, False, actions=["move-1.\n Consume Fire->+2 move\n If the element is consumed by the move, suffer 2 damage", "attack+1"]))
+        self.addCard(ModifierCard("Frost Breath", 39, True, actions=["move+0", "attack-1. Melee Cone AoE (1)x2x3", "Infuse Ice"]))
+        self.addCard(ModifierCard("Cold Snap", 42, False, actions=["move+1", "attack-1.\n Consume Frost->Brittle"]))
+        self.addCard(ModifierCard("Nothing Special", 71, True, actions=["move+0", "attack+0", "Infuse Frost"]))
+        self.addCard(ModifierCard("Icy Swipe", 84, False, actions=["move-1", "attack+1. Melee 2 taget Aoe Adj", "Infuse Frost"]))
+        self.shuffle()     
 
 class FlamingBladespinner(Deck):
     def __init__(self):
@@ -154,19 +244,18 @@ class FlamingBladespinner(Deck):
         self.addCard(ModifierCard("Heated Sweep", 58, False, actions=["move+0", "attack+0. Consume Fire->+1, Wound"]))
         self.shuffle()
 
-# class Guard(Deck):
-#     def __init__(self):
-#         super().__init__()
-#         self.addCard(ModifierCard("Venom Shiv", 15, False, None, 0, None, "Poison, Shield 1"))
-#         self.addCard(ModifierCard("Calculated Strike", 70, False, -1, 1, None, None))
-#         self.addCard(ModifierCard("Calculated Strike", 70, False, -1, 1, None, None))
-#         self.addCard(ModifierCard("Nothing Special", 50, False, 0, 0, None, None))
-#         self.addCard(ModifierCard("Parry and Thrust", 15, True, None, None, None, "Shield 1, Retaliate 2"))
-#         self.addCard(ModifierCard("Nothing Special", 50, False, 0, 0, None, None))
-#         self.addCard(ModifierCard("Psych Up", 55, True, -1, 0, None, "Strengthen Self"))
-#         self.addCard(ModifierCard("Hasty Assault", 30, False, 1, -1, None, None))
-#         self.addCard(ModifierCard("Throwing Axe", 35, False, -1, 0, 2, None))
-#         self.shuffle()
+class Guard(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Throwing Axe", 35, False, actions=["move-1", "attack+0. Range 2"]))
+        self.addCard(ModifierCard("Hasty Assault", 30, False, actions=["move+1", "attack-1"]))
+        self.addCard(ModifierCard("Psych Up", 55, True, actions=["move-1", "attack+0", "Strengthen Self"]))
+        self.addCard(ModifierCard("Nothng Special", 50, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Parry and Trust", 15, True, actions=["Shield 1", "Retaliate 2"]))
+        self.addCard(ModifierCard("Nothing Special", 50, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Venom Shiv", 15, False, actions=["move+0. Poison", "Shield 1"]))
+        self.addCard(ModifierCard("Calculated Strike", 70, False, actions=["move-1", "attack+1"]))
+        self.shuffle()
 
 class HarrowerInfester(Deck):
     def __init__(self):
@@ -186,8 +275,8 @@ class Hound(Deck):
         super().__init__()
         self.addCard(ModifierCard("Gripping Teeth", 6, False, actions=["move-1", "attack+0. Immobilize"]))
         self.addCard(ModifierCard("Harrowing Howl", 7, False, actions=["move+0", "Muddle all, Range 1"]))
-        self.addCard(ModifierCard("Pack Hunting", 19, True, actions=["move+0", "attack+0. Add +2 if target adj. to any of Hound's allies"]))
-        self.addCard(ModifierCard("Pack Hunting", 19, True, actions=["move+0", "attack+0. Add +2 if target adj. to any of Hound's allies"]))
+        self.addCard(ModifierCard("Pack Hunting", 19, True, actions=["move+0", "attack+0. Add +2 if target adj to any of Hound's allies"]))
+        self.addCard(ModifierCard("Pack Hunting", 19, True, actions=["move+0", "attack+0. Add +2 if target adj to any of Hound's allies"]))
         self.addCard(ModifierCard("Nothing Special", 26, False, actions=["move+0", "attack+0"]))
         self.addCard(ModifierCard("Nothing Special", 26, False, actions=["move+0", "attack+0"]))
         self.addCard(ModifierCard("Calculated Strike", 83, False, actions=["move-2", "attack+1"]))
@@ -219,7 +308,58 @@ class Imp(Deck):
         self.addCard(ModifierCard("Dark Charm", 43, True, actions=["move+0", "attack-1. Range 3, Curse\n  Consume Random->+1 Target"]))
         self.addCard(ModifierCard("Tip the Scales", 24, False, actions=["Strengthen allies, Range 2", "Muddle enemies, Range 2"]))
         self.shuffle()
-        
+
+class LightningEel(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Nothing Special", 20, False, actions=["move+0", "attack+0", "Infuse Light"]))
+        self.addCard(ModifierCard("Shocking Voltage", 82, True, actions=["move-1", "attack-1. Target all adj enemies\n Consume Light->Stun"]))
+        self.addCard(ModifierCard("Thrasing in the Water", 9, True, actions=["move+1", "attack-1. Target all adj enemies"]))
+        self.addCard(ModifierCard("Calculated Strike", 35, False, actions=["move-1", "attack+1", "Infuse Light"]))
+        self.addCard(ModifierCard("Paralyzing Bite", 67, False, actions=["move-1", "attack+0.\n Consume Light->+1 attack, Stun"]))
+        self.addCard(ModifierCard("Leaping Dive", 12, False, actions=["move+2. Jump", "attack-1", "Infuse Light"]))
+        self.addCard(ModifierCard("Electric Pulse", 16, False, actions=["move-1", "attack+0. Range 2\n Infuse Light"]))
+        self.addCard(ModifierCard("Hasty Assault", 5, False, actions=["move+1", "attack-1"]))
+        self.shuffle()
+
+class LivingBones(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Drain Life", 20, True, actions=["move-2", "attack+0", "Heal 2 self"]))
+        self.addCard(ModifierCard("Nothing Special", 45, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Calculated Strike", 64, False, actions=["move-1", "attack+1"]))
+        self.addCard(ModifierCard("Focused Stabs", 74, False, actions=["move+0", "attack+0. Target 1 enemy w/ all attacks"]))
+        self.addCard(ModifierCard("Eternal Life", 12, True, actions=["Shield 1", "Heal 2 self"]))
+        self.addCard(ModifierCard("Nothing Special", 45, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Hasty Assault", 25, False, actions=["move+1", "attack-1"]))
+        self.addCard(ModifierCard("Power Slash", 81, False, actions=["move+2"]))
+        self.shuffle()
+
+class LivingDoom(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Chilling Aura", 70, False, actions=["move+0", "attack-1. 3 adj melee AOE", "Infuse Frost"]))
+        self.addCard(ModifierCard("Fate of Darkness", 82, False, actions=["move-1", "attack+1.\n Consume Darkness->Disarm"]))
+        self.addCard(ModifierCard("Arresting Advance", 32, False, actions=["move+1", "attack-1.\n Consume Frost->Immobilize"]))
+        self.addCard(ModifierCard("Nothing Special", 57, False, actions=["move+0", "attack+0", "Consume Darkness"]))
+        self.addCard(ModifierCard("Sunless Abyss", 11, False, actions=["Curse, Range 2", "Shield 1", "Retaliate 2, Range 2", "Infuse Frost and Darkness"]))
+        self.addCard(ModifierCard("Hateful Spikes", 17, False, actions=["move+1", "Retaliate 2", "Infuse Darkness"]))
+        self.addCard(ModifierCard("Pull of the Grave", 98, True, actions=["move+1", "attack-3. Bane"]))
+        self.addCard(ModifierCard("Call for Souls", 78, True, actions=["Summon X normal Living Spirits\n Where X is the Living Doom's current HP divided by 5 (rounded down, Max 3)"]))
+
+class LivingSpirit(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Sap Strength", 22, True, actions=["move-1", "attack-1. Range 3, Muddle"]))
+        self.addCard(ModifierCard("Booming Scream", 33, True, actions=["move-1", "attack-1. Range 3, Target 3"]))
+        self.addCard(ModifierCard("Nothing Special", 48, False, actions=["move+0", "attack+0. Range 3"]))
+        self.addCard(ModifierCard("Nothing Special", 48, False, actions=["move+0", "attack+0. Range 3"]))
+        self.addCard(ModifierCard("Coupled Chain", 61, False, actions=["attack+0. Range 3, Target 2"]))
+        self.addCard(ModifierCard("Leech Warmth", 75, False, actions=["move-1", "attack+1. Range 2", "Heal 1 self", "Infuse Frost"]))
+        self.addCard(ModifierCard("Angry Howl", 55, False, actions=["move+0", "Curse, Target 3, Range 2", "Infuse Frost"]))
+        self.addCard(ModifierCard("Icy Glare", 67, False, actions=["move-1", "attack+0. Range 4\n Consume Frost->Stun"]))
+        self.shuffle()
+
 class LurkerClawcrusher(Deck):
     def __init__(self):
         super().__init__()
@@ -233,18 +373,18 @@ class LurkerClawcrusher(Deck):
         self.addCard(ModifierCard("Frantic Swipes", 31, False, actions=["move+1", "attack-2. Target all adj enemies, Poison", "Infuse Earth"]))
         self.shuffle()
         
-# class LurkerMindsnipper(Deck):
-#     def __init__(self):
-#         super().__init__()
-#         self.addCard(ModifierCard("Psychic Shock", 6, True, None, None, None, "Retaliate 3 (Consume Dark->+2), Range 3. Muddle All, Range 3 "))
-#         self.addCard(ModifierCard("Hasty Assault", 10, False, 2, -1, 3, "Infuse Dark"))
-#         self.addCard(ModifierCard("Consume All Hope", 22, False, 0, -1, 3, "Curse, Infuse Dark"))
-#         self.addCard(ModifierCard("Calculated Strike", 34, False, -2, 1, 3, "Infuse Dark"))
-#         self.addCard(ModifierCard("Instill Fear", 37, False, None, -1, 3, "+2 Target, Push 2"))
-#         self.addCard(ModifierCard("Beguiling Thoughts", 18, False, 0, -2, 2, "Disarm"))
-#         self.addCard(ModifierCard("Turn the Weak", 51, True, 0, -2, 3, "Control all targets of attack: Attack 3"))
-#         self.addCard(ModifierCard("Paralyze", 46, False, None, -1, 4, "Consume Dark -> Stun"))
-#         self.shuffle()
+class LurkerMindsnipper(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Psychic Shock", 6, True, actions=["Retaliate 3, Range 3\n Consume Darkness->Retaliate 2", "Muddle all, Range 3"]))
+        self.addCard(ModifierCard("Beguiling Thoughts", 18, False, actions=["move+0", "attack-2. Range 2, Disarm"]))
+        self.addCard(ModifierCard("Paralyze", 46, False, actions=["attack-1. Range 4\n Consume Darkness->Stun"]))
+        self.addCard(ModifierCard("Hasty Assault", 10, False, actions=["move+2", "attack-1. Range 3", "Infuse Darkness"]))
+        self.addCard(ModifierCard("Calculated Strike", 34, False, actions=["move-2", "attack+1. Range 3", "Infuse Darkness"]))
+        self.addCard(ModifierCard("Consume All Hope", 22, False, actions=["move+0", "attack-1. Range 3, Curse", "Infuse Darkness"]))
+        self.addCard(ModifierCard("Turn the Weak", 51, True, actions=["move+0", "attack-2. Range 3", "Control targets of attack in initiative order->\n Attack+3"]))
+        self.addCard(ModifierCard("Instill Fear", 37, False, actions=["attack-1. +2 Targets, Range 3, Push 2"]))
+        self.shuffle()
         
 class LurkerSoldier(Deck):
     def __init__(self):
@@ -259,6 +399,19 @@ class LurkerSoldier(Deck):
         self.addCard(ModifierCard("Hardened by Frost", 23, True, actions=["move+0", "attack-1", "Shield 1", "Infuse Frost"]))
         self.shuffle()
         
+class LurkerWavethrower(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Powerful Claw", 60, False, actions=["mov-1", "attack+2"]))
+        self.addCard(ModifierCard("Distant Wave", 51, False, actions=["Focus on farthest enemy within Range 6->", "attack+1. Range 6"]))
+        self.addCard(ModifierCard("Tsunami", 29, False, actions=["move+1", "attack-1. Range2, Large Flower AoE"]))
+        self.addCard(ModifierCard("Aid From Below", 98, True, actions=["Create a 1-hex water tile in adj empty hex", "Summon Lightning Eel in adj unnocupied water hex\n Normal Wavethrower summon normal, elite summon elite"]))
+        self.addCard(ModifierCard("Aid From Below", 98, True, actions=["Create a 1-hex water tile in adj empty hex", "Summon Lightning Eel in adj unnocupied water hex\n Normal Wavethrower summon normal, elite summon elite"]))
+        self.addCard(ModifierCard("Crushing Crest", 36, False, actions=["move+1", "attack-1. 3 Hex melee adjacent AoE"]))
+        self.addCard(ModifierCard("Twin Claws", 48, False, actions=["move+0", "attack+0. 2 Hex melee adj AoE"]))
+        self.addCard(ModifierCard("Massive Shell", 40, False, actions=["move+0", "attack+0. Range 3, small triangle AoE"]))
+        self.shuffle()
+
 class NightDemon(Deck):
     def __init__(self):
         super().__init__()
@@ -272,13 +425,26 @@ class NightDemon(Deck):
         self.addCard(ModifierCard("The Night Feeds", 15, False, actions=["move+0", "attack-1", "All adjacent enemies and allies Suffer 1 damage", "Consume Any->Infuse Dark"]))
         self.shuffle()
         
+class Ooze(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Hasty Assault", 36, False, actions=["move+1", "attack-1. Range 3", "Infuse Earth"]))
+        self.addCard(ModifierCard("Nothing Special", 57, False, actions=["move+0", "attack+0. Range 3"]))
+        self.addCard(ModifierCard("Toxic Explosion", 59, False, actions=["move+0. Target 2, Range 3, Poison\n Consume Earth->+1 Target"]))
+        self.addCard(ModifierCard("Plasma Ward", 85, False, actions=["Push 1, Target all, Range 1, Poison", "attack+1. Range 2"]))
+        self.addCard(ModifierCard("Calculated Strike", 66, False, actions=["move-1", "attack+1. Range 4", "Infuse Darkness"]))
+        self.addCard(ModifierCard("Split", 94, True, actions=["Ooze suffers 2 damage", "Summon one normal Ooze w/ HP equal to Ooze's current HP (limited by normal Ooze max HP)"]))
+        self.addCard(ModifierCard("Split", 94, True, actions=["Ooze suffers 2 damage", "Summon one normal Ooze w/ HP equal to Ooze's current HP (limited by normal Ooze max HP)"]))
+        self.addCard(ModifierCard("Feed", 66, False, actions=["move-1", "Loot 1", "Heal 2 self\n Consume Darkness->+1 Heal"]))
+        self.shuffle()
+
 class PiranhaPig(Deck):
     def __init__(self):
         super().__init__()
         self.addCard(ModifierCard("Schooling", 40, True, actions=["move+0", "attack+0. Add +1 if target adj to any PiranhaPig allies"]))
         self.addCard(ModifierCard("Bloodthirst", 38, False, actions=["move+1", "attack-1. Add +2 if target has Wound"]))
         self.addCard(ModifierCard("Easy Prey", 54, False, actions=["move-1", "attack+1. Add +1 if target occupying hex with a water tile"]))
-        self.addCard(ModifierCard("Feast", 26, False, actions=["attack+0", "Heal X. X is dmg suffered by target of attack"]))
+        self.addCard(ModifierCard("Feast", 26, False, actions=["attack+0", "Heal X, X is dmg suffered by target of attack"]))
         self.addCard(ModifierCard("Hasty Assault", 18, False, actions=["move+1. Jump", "attack-1"]))
         self.addCard(ModifierCard("No Escape", 23, False, actions=["attack+1. Immobilize"]))
         self.addCard(ModifierCard("Bared Teeth", 13, False, actions=["move+1. Jump", "Wound All Range 1", "Retaliate 2"]))
@@ -311,6 +477,19 @@ class PolarBear(Deck):
         self.addCard(ModifierCard("Rampage", 80, True, actions=["attack-1", "move-2", "attack-1. Impair"]))
         self.shuffle()
 
+class RendingDrake(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Hasty Assault", 12, False, actions=["move+1", "attack-1"]))
+        self.addCard(ModifierCard("Swift Claws", 13, True, actions=["attack-1", "move-1", "attack-1"]))
+        self.addCard(ModifierCard("Nothing Special", 25, False, actions=["move+0", "attack+0"]))
+        self.addCard(ModifierCard("Calculated Strike", 39, False, actions=["move-1", "attack+1"]))
+        self.addCard(ModifierCard("Venom Glands", 54, False, actions=["move-2", "attack-1. Target 2, Range 3, Poison"]))
+        self.addCard(ModifierCard("Dangerous Fury", 59, False, actions=["move-2", "attack+1. Range 2"]))
+        self.addCard(ModifierCard("Unending Frenzy", 72, True, actions=["attack-1", "attack-1", "attack-2"]))
+        self.addCard(ModifierCard("Empowering Rest", 6, False, actions=["Shield 2", "Heal 2 self, Strengthen"]))
+        self.shuffle()
+
 class RoboticBoltshooter(Deck):
     def __init__(self):
         super().__init__()
@@ -329,14 +508,41 @@ class RuinedMachine(Deck):
         super().__init__()
         self.addCard(ModifierCard("Calculated Strike", 85, False, actions=["move+1","attack+1"]))
         self.addCard(ModifierCard("Hasty Assault", 41, False, actions=["move+1", "attack-1"]))
-        self.addCard(ModifierCard("Signal Jam", 56, True, actions=["move+0", "Muddle All, Range 2. Ruined Machine Suffers 1"]))
+        self.addCard(ModifierCard("Signal Jam", 56, True, actions=["move+0", "Muddle All, Range 2\n Ruined Machine Suffers 1"]))
         self.addCard(ModifierCard("Nothing Special", 63, False, actions=["move+0", "attack+0"]))
         self.addCard(ModifierCard("Devastating Tackle", 42, False, actions=["attack+2. Immobilize", "If Attack performed, Suffer 1 self"]))
         self.addCard(ModifierCard("Latch On", 31, False, actions=["move+1", "Poison, Immobilize, Range 1"]))
-        self.addCard(ModifierCard("Self-Destruct", 93, True, actions=["move+0", "attack+0", "If Attack performed all adj enemies suffer trap damage. Ruined machine dies."]))
+        self.addCard(ModifierCard("Self-Destruct", 93, True, actions=["move+0", "attack+0", "If Attack performed all adj enemies suffer trap damage\n Ruined machine dies."]))
         self.addCard(ModifierCard("Fuel Leak", 29, False, actions=["move+1", "If Move performed, Suffer 1 self", "attack+0"]))
         self.shuffle()
         
+class SavvasIcestorm(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Repulsive Torrent", 70, False, actions=["Push 2, Target all, Range 1\n Consume Wind->+2 Push", "attack+1. Range 5"]))
+        self.addCard(ModifierCard("Call of the Wind", 98, False, actions=["Summon one normal Wind Demon", "Infuse Wind"]))
+        self.addCard(ModifierCard("Call of the Frost", 98, False, actions=["Summon one normal Frost Demon"]))
+        self.addCard(ModifierCard("Hardened Frost", 19, False, actions=["move+0", "attack-1. Range 3", "Grant all allies within Range 2, and self, Shield 1", "Infuse Frost"]))
+        self.addCard(ModifierCard("Freezing Winds", 14, False, actions=["attack+0. Range 4\n Consume Frost->+2 attack, Immobilize", "Retaliate 2", "Infuse Wind"]))
+        # TODO Frozen Shell attack on consume wind text formatting
+        self.addCard(ModifierCard("Frozen Shell", 14, False, actions=["Shield 4", "Heal 2 self, Range 3\n Consume Earth->+3 Heal", "Consume Wind->","attack-1. Range 3"]))
+        self.addCard(ModifierCard("Forceful Gust", 47, True, actions=["Disarm all, Range 1", "move+0", "attack-1. Range 4", "Infuse Wind"]))
+        self.addCard(ModifierCard("Cone of Cold", 35, True, actions=["move-1", "attack-1. 2 Range Cone AoE", "Infuse Frost"]))
+        self.shuffle()
+
+class SavvasLavaflow(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Call of the Flame", 97, False, actions=["Summon one normal Flame Demon", "Infuse Fire"]))
+        self.addCard(ModifierCard("Call of the Earth", 97, False, actions=["Summon one normal Earth Demon", "Infuse Earth"]))
+        self.addCard(ModifierCard("Circle of Fire", 22, False, actions=["move+1", "attack-1. Target all adj enemies", "Consume Fire->Retaliate 3"]))
+        self.addCard(ModifierCard("Rock Bomb", 68, True, actions=["move-1", "attack+1. Range 3, All allies and enemies adj to target suffer 2 damage", "Infuse Earth"]))
+        self.addCard(ModifierCard("Stone Spikes", 41, False, actions=["move+0", "attack-1. 3 Hex melee Line AoE\n Consume Earth->+2 attack, Immobilize"]))
+        self.addCard(ModifierCard("Flowing Magma", 51, False, actions=["All enemies within Range 5 suffer 2 damage", "Consume Fire->Wound all, Range 5", "Consume Earth->Disarm all, Range 4"]))
+        self.addCard(ModifierCard("Strength of the Mountain", 31, False, actions=["Heal 4, Range 3\n Consume Earth->+2 Targets"]))
+        self.addCard(ModifierCard("Fire Bolts", 68, True, actions=["move-1","attack-1. Target 2, Range 3", "Infuse Fire"]))
+        self.shuffle()
+
 class Scout(Deck):
     def __init__(self):
         super().__init__()
@@ -388,7 +594,19 @@ class SteelAutomaton(Deck):
         self.addCard(ModifierCard("Unstoppable Force", 45, False, actions=["move+1", "attack-1. Push 3"]))
         self.addCard(ModifierCard("Immovable Object", 10, True, actions=["Shield 4"]))
         self.shuffle()
-        
+
+class SunDemon(Deck):
+    def __init__(self):
+        super().__init__()
+        self.addCard(ModifierCard("Ray of Warmth", 17, True, actions=["Heal 3, Range 3\n Consume Light->Target all"]))
+        self.addCard(ModifierCard("Brilliant Aura", 36, False, actions=["move+0", "attack+0. Target all adj enemies", "Infuse"]))
+        self.addCard(ModifierCard("Brilliant Aura", 36, False, actions=["move+0", "attack+0. Target all adj enemies", "Infuse"]))
+        self.addCard(ModifierCard("Star Strike", 68, False, actions=["move+0", "attack+1", "Infuse Light"]))
+        self.addCard(ModifierCard("Vicious Opportunity", 73, True, actions=["move-1", "attack+1", "Consume Light->Heal 3 self"]))
+        self.addCard(ModifierCard("Supernova", 95, False, actions=["move-1", "attack+0. Range 3\n Consume Light->Target all"]))
+        self.addCard(ModifierCard("Glowing Sweep", 88, False, actions=["move-1", "attack-1. Target all adj enemies", "Consume Darkness->Muddle self"]))
+        self.addCard(ModifierCard("Shining Orb", 50, False, actions=["move+0", "attack+0. Range 3\n Consume any->Infuse Light"]))
+        self.shuffle()
 
 class WindDemon(Deck):
     def __init__(self):

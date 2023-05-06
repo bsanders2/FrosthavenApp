@@ -31,7 +31,7 @@ def play():
         [sg.Button("PlayMove")],
         [sg.Button('AddMonster'), sg.OptionMenu(MonsterNames._MONSTER_NAMES_, key='MonsterToAdd'), 
                 sg.OptionMenu(['Normal', 'Elite'],'Normal',key='EliteAdd')],
-        [sg.Button("StartGame"), sg.Combo([x for x in range(9)],key='level'), sg.Button('Exit')]
+        [sg.Button("StartGame"), sg.Combo([x for x in range(8)],key='level'), sg.Button('Exit')]
         ])]
         ]
 
