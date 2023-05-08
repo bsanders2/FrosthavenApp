@@ -107,7 +107,7 @@ class AlgoxSnowspeaker(Deck):
         self.addCard(ModifierCard("Sleet", 43, False, actions=["move+0", "attack+1. Range 4", "Infuse Frost"]))
         self.addCard(ModifierCard("Blistering Assault", 30, False, actions=["move+0", "attack-1. Range 4, Push 1\n Consume Wind->+2 Push"]))
         self.addCard(ModifierCard("Snowstorm", 6, True, actions=["All enemies in Range 3 suffer 2 damage", "Push 2, Target all, Range 3", "Infuse Frost, Infuse Wind"]))
-        self.addCard(ModifierCard("Hail", 59, False, actions=["move-1", "attac+1. Range 5\n Consume Frost->+2"]))
+        self.addCard(ModifierCard("Hail", 59, False, actions=["move-1", "attack+1. Range 5\n Consume Frost->+2"]))
         self.addCard(ModifierCard("Nothing Special", 27, False, actions=["Move+0", "attack+0", "Infuse Wind"]))
         self.addCard(ModifierCard("Snow Drifts", 66, False, actions=["Immobilize all, Range 6", "Consume Wind->Muddle all, Range 6"]))
         self.shuffle()
@@ -402,7 +402,7 @@ class LurkerSoldier(Deck):
 class LurkerWavethrower(Deck):
     def __init__(self):
         super().__init__()
-        self.addCard(ModifierCard("Powerful Claw", 60, False, actions=["mov-1", "attack+2"]))
+        self.addCard(ModifierCard("Powerful Claw", 60, False, actions=["move-1", "attack+2"]))
         self.addCard(ModifierCard("Distant Wave", 51, False, actions=["Focus on farthest enemy within Range 6->", "attack+1. Range 6"]))
         self.addCard(ModifierCard("Tsunami", 29, False, actions=["move+1", "attack-1. Range2, Large Flower AoE"]))
         self.addCard(ModifierCard("Aid From Below", 98, True, actions=["Create a 1-hex water tile in adj empty hex", "Summon Lightning Eel in adj unnocupied water hex\n Normal Wavethrower summon normal, elite summon elite"]))
